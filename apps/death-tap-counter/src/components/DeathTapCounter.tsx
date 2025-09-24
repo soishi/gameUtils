@@ -10,6 +10,7 @@ import { useSwipeDetection } from "@/hooks/useSwipeDetection";
 import { TapEvent } from "@/types";
 import { HamburgerMenu } from "./HamburgerMenu";
 import { HistoryDrawer } from "./HistoryDrawer";
+import { RecentHistory } from "./RecentHistory";
 
 export const DeathTapCounter = () => {
   const {
@@ -135,15 +136,21 @@ export const DeathTapCounter = () => {
         </div>
 
         {/* 下部エリア（80% - カウント増加ゾーン） */}
-        <div className="absolute bottom-0 left-0 w-full h-[80%] flex items-center justify-center bg-gradient-to-b from-green-800/10 to-green-900/20">
-          <div className="text-center">
+        <div className="absolute bottom-0 left-0 w-full h-[80%] flex flex-col items-center justify-center bg-gradient-to-b from-green-800/10 to-green-900/20">
+          <div className="text-center flex-shrink-0">
             <div className="text-8xl sm:text-9xl md:text-[12rem] font-bold tabular-nums leading-none mb-4">
               {Math.max(0, count)}
             </div>
-            <div className="text-xl sm:text-2xl text-green-400 font-medium">
+            <div className="text-xl sm:text-2xl text-green-400 font-medium mb-4">
               デス数
             </div>
           </div>
+
+          {/* 直近5バトルの履歴 */}
+          <div className="w-full max-w-xs px-4 flex-shrink-0">
+            <RecentHistory history={history} />
+          </div>
+
           <div className="absolute bottom-4 right-4 text-sm text-green-400/80">
             タップで +1
           </div>
