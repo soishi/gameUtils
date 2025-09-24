@@ -32,6 +32,7 @@ export const DeathTapCounter = () => {
   });
 
   const containerRef = useRef<HTMLDivElement>(null);
+  const touchStartTime = useRef<number>(0);
 
   // タップイベントの処理
   const handleContainerClick = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -50,6 +51,40 @@ export const DeathTapCounter = () => {
     };
 
     handleTap(tapEvent, rect.height);
+  };
+
+  // タッチ開始イベントの処理
+  const handleTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
+    touchStartTime.current = Date.now();
+    handlePointerDown(event as any);
+  };
+
+  // タッチ終了イベントの処理
+  const handleTouchEnd = (event: React.TouchEvent<HTMLDivElement>) => {
+    if (!containerRef.current) return;
+
+    const touchDuration = Date.now() - touchStartTime.current;
+
+    // 短いタッチ（200ms以下）はタップとして扱う
+    if (touchDuration < 200 && event.changedTouches.length === 1) {
+      const touch = event.changedTouches[0];
+      const rect = containerRef.current.getBoundingClientRect();
+      const point = {
+        x: touch.clientX - rect.left,
+        y: touch.clientY - rect.top,
+      };
+
+      const tapEvent: TapEvent = {
+        point,
+        zone: point.y <= rect.height * 0.2 ? "decrement" : "increment",
+        timestamp: Date.now(),
+      };
+
+      handleTap(tapEvent, rect.height);
+    }
+
+    // スワイプ検知も実行
+    handlePointerUp(event as any);
   };
 
   // キーボードショートカットの処理
@@ -124,8 +159,8 @@ export const DeathTapCounter = () => {
         onClick={handleContainerClick}
         onMouseDown={handlePointerDown}
         onMouseUp={handlePointerUp}
-        onTouchStart={handlePointerDown}
-        onTouchEnd={handlePointerUp}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
         aria-label="デスカウンタータップエリア"
         role="button"
         tabIndex={0}
