@@ -1,0 +1,12 @@
+{
+  "browserType": "chromium",
+  "headless": false,
+  "launchOptions": {
+    "slowMo": 100,
+    "args": ["--start-maximized"]
+  },
+  "contextOptions": {
+    "viewport": null,
+    "ignoreHTTPSErrors": true
+  }
+}

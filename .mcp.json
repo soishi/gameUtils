@@ -1,0 +1,22 @@
+{
+  "mcpServers": {
+    "playwright": {
+      "command": "cmd",
+      "args": [
+        "/c",
+        "npx",
+        "-y",
+        "@playwright/mcp@latest",
+        "--config",
+        "./playwright-config.json"
+      ]
+    },
+    "serena": {
+      "command": "C:\\Users\\oishi\\.local\\bin\\mcp-server-git.exe",
+      "args": [
+        "--repository",
+        "C:\\Users\\oishi\\win-project\\gameUtils"
+      ]
+    }
+  }
+}

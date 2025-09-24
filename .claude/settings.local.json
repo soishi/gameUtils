@@ -7,9 +7,21 @@
       "Bash(npm run lint)",
       "Bash(npx tsc:*)",
       "Bash(npm test)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Read(//c/Users/oishi/win-project/kjs/Genka/CostCo/frontend/**)",
+      "mcp__playwright__browser_navigate",
+      "Bash(npm run dev:*)",
+      "Bash(npm run:*)",
+      "mcp__playwright__browser_evaluate",
+      "mcp__playwright__browser_snapshot",
+      "mcp__playwright__browser_click",
+      "Bash(npx prettier:*)"
     ],
     "deny": [],
     "ask": []
-  }
+  },
+  "enabledMcpjsonServers": [
+    "playwright",
+    "serena"
+  ]
 }
