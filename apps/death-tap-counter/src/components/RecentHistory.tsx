@@ -24,8 +24,8 @@ export const RecentHistory = ({ history }: RecentHistoryProps) => {
   return (
     <div className="flex flex-col gap-1 py-2">
       {/* 履歴全体の勝率表示 */}
-      <div className="text-center text-xs text-gray-400 mb-1">
-        全{totalGames}戦 勝率{winRate}%
+      <div className="text-center text-4xl text-gray-400 mb-1">
+        勝率{winRate}%
       </div>
 
       {recentHistory.map((game) => (
