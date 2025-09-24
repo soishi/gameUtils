@@ -178,6 +178,25 @@ interface GameStats {
 - Next.js静的サイト生成
 - GitHub Pagesへのデプロイ
 
+### トラブルシューティング
+
+#### 初回デプロイ時のPages設定エラー
+
+**症状**: GitHub Actionsで "Get Pages site failed" エラーが発生
+
+**解決方法**:
+1. リポジトリの Settings > Pages へ移動
+2. Source を "GitHub Actions" に設定
+3. Actions タブから手動でワークフローを再実行
+
+**または**: 最新のワークフローは自動でPages設定を有効化するため、エラーが発生してもそのまま実行を継続します。
+
+#### ビルドエラーの場合
+
+1. **依存関係エラー**: `npm ci` が失敗する場合は、`package-lock.json` の整合性を確認
+2. **テストエラー**: テストが失敗する場合は、ローカルで `npm test` を実行して修正
+3. **ESLintエラー**: `npm run lint` でローカル環境のコード品質を確認
+
 ## ライセンス
 
 このプロジェクトはMITライセンスの下で公開されています。
