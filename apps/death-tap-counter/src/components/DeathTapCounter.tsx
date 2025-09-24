@@ -129,7 +129,7 @@ export const DeathTapCounter = () => {
       >
         {/* 上部エリア（20% - カウント減少ゾーン） */}
         <div className="absolute top-0 left-0 w-full h-[20%] flex items-center justify-center bg-gradient-to-b from-red-900/20 to-red-800/10 border-b border-red-600/30">
-          <div className="absolute top-4 left-4 text-sm text-red-400/80">
+          <div className="text-xl sm:text-2xl text-red-400 font-medium">
             タップで -1
           </div>
         </div>
