@@ -136,10 +136,10 @@ src/
 
 ```typescript
 interface GameHistory {
-  id: string; // 一意ID
-  at: number; // 記録時刻（epoch_ms）
-  count: number; // デス数
-  result: "W" | "L"; // 試合結果
+  id: string // 一意ID
+  at: number // 記録時刻（epoch_ms）
+  count: number // デス数
+  result: 'W' | 'L' // 試合結果
 }
 ```
 
@@ -147,9 +147,9 @@ interface GameHistory {
 
 ```typescript
 interface GameStats {
-  avg: number; // 平均デス数（小数点1桁）
-  wins: number; // 勝利数
-  losses: number; // 敗北数
+  avg: number // 平均デス数（小数点1桁）
+  wins: number // 勝利数
+  losses: number // 敗北数
 }
 ```
 

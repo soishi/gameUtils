@@ -37,7 +37,8 @@
       "Bash(powershell:*)",
       "Bash(npx next:*)",
       "mcp__serena__git_add",
-      "mcp__serena__git_commit"
+      "mcp__serena__git_commit",
+      "Bash(npm test:*)"
     ],
     "deny": [],
     "ask": []
