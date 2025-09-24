@@ -42,7 +42,7 @@ export const DeathTapCounter = () => {
 
     const tapEvent: TapEvent = {
       point,
-      zone: point.y <= rect.height * 0.7 ? "increment" : "decrement",
+      zone: point.y <= rect.height * 0.8 ? "decrement" : "increment",
       timestamp: Date.now(),
     };
 
@@ -127,25 +127,25 @@ export const DeathTapCounter = () => {
         role="button"
         tabIndex={0}
       >
-        {/* 上部エリア（70% - カウント増加ゾーン） */}
-        <div className="absolute top-0 left-0 w-full h-[70%] flex items-center justify-center bg-gradient-to-b from-green-900/20 to-green-800/10 border-b border-green-600/30">
+        {/* 上部エリア（80% - カウント減少ゾーン） */}
+        <div className="absolute top-0 left-0 w-full h-[80%] flex items-center justify-center bg-gradient-to-b from-red-900/20 to-red-800/10 border-b border-red-600/30">
           <div className="text-center">
             <div className="text-8xl sm:text-9xl md:text-[12rem] font-bold tabular-nums leading-none mb-4">
               {Math.max(0, count)}
             </div>
-            <div className="text-xl sm:text-2xl text-green-400 font-medium">
+            <div className="text-xl sm:text-2xl text-red-400 font-medium">
               デス数
             </div>
           </div>
-          <div className="absolute top-4 left-4 text-sm text-green-400/80">
-            タップで +1
+          <div className="absolute top-4 left-4 text-sm text-red-400/80">
+            タップで -1
           </div>
         </div>
 
-        {/* 下部エリア（30% - カウント減少ゾーン） */}
-        <div className="absolute bottom-0 left-0 w-full h-[30%] flex items-center justify-center bg-gradient-to-b from-red-800/10 to-red-900/20">
-          <div className="text-xl sm:text-2xl text-red-400 font-medium">
-            タップで -1
+        {/* 下部エリア（20% - カウント増加ゾーン） */}
+        <div className="absolute bottom-0 left-0 w-full h-[20%] flex items-center justify-center bg-gradient-to-b from-green-800/10 to-green-900/20">
+          <div className="text-xl sm:text-2xl text-green-400 font-medium">
+            タップで +1
           </div>
         </div>
 
