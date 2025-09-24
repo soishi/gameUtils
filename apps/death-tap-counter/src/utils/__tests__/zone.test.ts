@@ -8,39 +8,39 @@ describe("zone utilities", () => {
   describe("getTapZone", () => {
     const screenHeight = 1000;
 
-    test("上部70%の領域では increment を返す", () => {
+    test("上部20%の領域では decrement を返す", () => {
       // 上端
-      expect(getTapZone({ x: 100, y: 0 }, screenHeight)).toBe("increment");
+      expect(getTapZone({ x: 100, y: 0 }, screenHeight)).toBe("decrement");
 
-      // 70%境界線付近（上部側）
-      expect(getTapZone({ x: 100, y: 699 }, screenHeight)).toBe("increment");
+      // 20%境界線付近（上部側）
+      expect(getTapZone({ x: 100, y: 199 }, screenHeight)).toBe("decrement");
 
-      // 70%境界線ちょうど
-      expect(getTapZone({ x: 100, y: 700 }, screenHeight)).toBe("increment");
+      // 20%境界線ちょうど
+      expect(getTapZone({ x: 100, y: 200 }, screenHeight)).toBe("decrement");
     });
 
-    test("下部30%の領域では decrement を返す", () => {
-      // 70%境界線を超えた位置
-      expect(getTapZone({ x: 100, y: 701 }, screenHeight)).toBe("decrement");
+    test("下部80%の領域では increment を返す", () => {
+      // 20%境界線を超えた位置
+      expect(getTapZone({ x: 100, y: 201 }, screenHeight)).toBe("increment");
 
       // 下部中央
-      expect(getTapZone({ x: 100, y: 850 }, screenHeight)).toBe("decrement");
+      expect(getTapZone({ x: 100, y: 600 }, screenHeight)).toBe("increment");
 
       // 下端
-      expect(getTapZone({ x: 100, y: 999 }, screenHeight)).toBe("decrement");
+      expect(getTapZone({ x: 100, y: 999 }, screenHeight)).toBe("increment");
     });
 
-    test("異なる画面高さでも正しく7:3の比率で判定する", () => {
+    test("異なる画面高さでも正しく2:8の比率で判定する", () => {
       const smallScreen = 500;
       const largeScreen = 2000;
 
-      // 小さな画面での70%境界
-      expect(getTapZone({ x: 100, y: 350 }, smallScreen)).toBe("increment");
-      expect(getTapZone({ x: 100, y: 351 }, smallScreen)).toBe("decrement");
+      // 小さな画面での20%境界
+      expect(getTapZone({ x: 100, y: 100 }, smallScreen)).toBe("decrement");
+      expect(getTapZone({ x: 100, y: 101 }, smallScreen)).toBe("increment");
 
-      // 大きな画面での70%境界
-      expect(getTapZone({ x: 100, y: 1400 }, largeScreen)).toBe("increment");
-      expect(getTapZone({ x: 100, y: 1401 }, largeScreen)).toBe("decrement");
+      // 大きな画面での20%境界
+      expect(getTapZone({ x: 100, y: 400 }, largeScreen)).toBe("decrement");
+      expect(getTapZone({ x: 100, y: 401 }, largeScreen)).toBe("increment");
     });
   });
 
