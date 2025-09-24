@@ -1,0 +1,183 @@
+/**
+ * デスタップカウンターのメインコンポーネント
+ */
+
+'use client';
+
+import { useEffect, useRef } from 'react';
+import { useDeathCounter } from '@/hooks/useDeathCounter';
+import { useSwipeDetection } from '@/hooks/useSwipeDetection';
+import { TapEvent } from '@/types';
+import { HamburgerMenu } from './HamburgerMenu';
+import { HistoryDrawer } from './HistoryDrawer';
+
+export const DeathTapCounter = () => {
+  const {
+    count,
+    history,
+    isHistoryOpen,
+    canUndo,
+    handleTap,
+    undoLastAction,
+    handleSwipe,
+    toggleHistory,
+    getStats,
+  } = useDeathCounter();
+
+  const { handlePointerDown, handlePointerUp } = useSwipeDetection({
+    onSwipe: handleSwipe,
+  });
+
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // タップイベントの処理
+  const handleContainerClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    if (!containerRef.current) return;
+
+    const rect = containerRef.current.getBoundingClientRect();
+    const point = {
+      x: event.clientX - rect.left,
+      y: event.clientY - rect.top,
+    };
+
+    const tapEvent: TapEvent = {
+      point,
+      zone: point.y <= rect.height * 0.7 ? 'increment' : 'decrement',
+      timestamp: Date.now(),
+    };
+
+    handleTap(tapEvent, rect.height);
+  };
+
+  // キーボードショートカットの処理
+  useEffect(() => {
+    const handleKeyPress = (event: KeyboardEvent) => {
+      switch (event.key) {
+        case ' ': // Space = +1
+          event.preventDefault();
+          const incrementEvent: TapEvent = {
+            point: { x: 0, y: 0 },
+            zone: 'increment',
+            timestamp: Date.now(),
+          };
+          handleTap(incrementEvent, 1000);
+          break;
+        case 'ArrowDown': // ↓ = -1
+          event.preventDefault();
+          const decrementEvent: TapEvent = {
+            point: { x: 0, y: 800 },
+            zone: 'decrement',
+            timestamp: Date.now(),
+          };
+          handleTap(decrementEvent, 1000);
+          break;
+        case 'z':
+        case 'Z':
+          if (!event.ctrlKey && !event.metaKey) {
+            event.preventDefault();
+            undoLastAction();
+          }
+          break;
+        case 'ArrowRight': // → = W確定
+          event.preventDefault();
+          handleSwipe({
+            startPoint: { x: 100, y: 100 },
+            endPoint: { x: 200, y: 100 },
+            distance: 100,
+            velocity: 0.3,
+            direction: 'right',
+            duration: 300,
+          });
+          break;
+        case 'ArrowLeft': // ← = L確定
+          event.preventDefault();
+          handleSwipe({
+            startPoint: { x: 200, y: 100 },
+            endPoint: { x: 100, y: 100 },
+            distance: 100,
+            velocity: 0.3,
+            direction: 'left',
+            duration: 300,
+          });
+          break;
+        case 'h':
+        case 'H':
+          event.preventDefault();
+          toggleHistory();
+          break;
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [handleTap, undoLastAction, handleSwipe, toggleHistory]);
+
+  return (
+    <div className="relative h-screen w-screen overflow-hidden bg-gray-900 text-white select-none">
+      {/* メインタップエリア */}
+      <div
+        ref={containerRef}
+        className="relative h-full w-full cursor-pointer"
+        onClick={handleContainerClick}
+        onMouseDown={handlePointerDown}
+        onMouseUp={handlePointerUp}
+        onTouchStart={handlePointerDown}
+        onTouchEnd={handlePointerUp}
+        aria-label="デスカウンタータップエリア"
+        role="button"
+        tabIndex={0}
+      >
+        {/* 上部エリア（70% - カウント増加ゾーン） */}
+        <div className="absolute top-0 left-0 w-full h-[70%] flex items-center justify-center bg-gradient-to-b from-green-900/20 to-green-800/10 border-b border-green-600/30">
+          <div className="text-center">
+            <div className="text-8xl sm:text-9xl md:text-[12rem] font-bold tabular-nums leading-none mb-4">
+              {count}
+            </div>
+            <div className="text-xl sm:text-2xl text-green-400 font-medium">
+              デス数
+            </div>
+          </div>
+          <div className="absolute top-4 left-4 text-sm text-green-400/80">
+            タップで +1
+          </div>
+        </div>
+
+        {/* 下部エリア（30% - カウント減少ゾーン） */}
+        <div className="absolute bottom-0 left-0 w-full h-[30%] flex items-center justify-center bg-gradient-to-b from-red-800/10 to-red-900/20">
+          <div className="text-xl sm:text-2xl text-red-400 font-medium">
+            タップで -1
+          </div>
+        </div>
+
+        {/* スワイプ指示 */}
+        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-center text-sm text-gray-400">
+          <div className="flex items-center gap-4">
+            <span className="flex items-center gap-1">
+              <span>←</span> 負け
+            </span>
+            <span>|</span>
+            <span className="flex items-center gap-1">
+              勝ち <span>→</span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* ハンバーガーメニュー */}
+      <HamburgerMenu
+        onHistoryClick={toggleHistory}
+        canUndo={canUndo}
+        onUndoClick={undoLastAction}
+      />
+
+      {/* 履歴ドロワー */}
+      {isHistoryOpen && (
+        <HistoryDrawer
+          history={history}
+          stats={getStats()}
+          onClose={toggleHistory}
+        />
+      )}
+    </div>
+  );
+};
