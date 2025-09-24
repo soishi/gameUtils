@@ -56,7 +56,7 @@ export const DeathTapCounter = () => {
   // タッチ開始イベントの処理
   const handleTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
     touchStartTime.current = Date.now();
-    handlePointerDown(event as any);
+    handlePointerDown(event);
   };
 
   // タッチ終了イベントの処理
@@ -84,7 +84,7 @@ export const DeathTapCounter = () => {
     }
 
     // スワイプ検知も実行
-    handlePointerUp(event as any);
+    handlePointerUp(event);
   };
 
   // キーボードショートカットの処理
