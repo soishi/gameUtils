@@ -18,7 +18,7 @@ import {
 
 export const useDeathCounter = () => {
   const [state, setState] = useState<AppState>({
-    count: -1,
+    count: 0,
     history: [],
     isHistoryOpen: false,
   })
@@ -68,11 +68,11 @@ export const useDeathCounter = () => {
   }, [triggerFlash])
 
   /**
-   * カウントを減少させる（下限-1）
+   * カウントを減少させる（下限0）
    */
   const decrementCount = useCallback(() => {
     setState((prev) => {
-      if (prev.count > -1) {
+      if (prev.count > 0) {
         setUndoStack((stack) => [...stack, prev.count])
         triggerFlash()
         return { ...prev, count: prev.count - 1 }
@@ -123,7 +123,7 @@ export const useDeathCounter = () => {
 
       setState((prev) => ({
         ...prev,
-        count: -1,
+        count: 0,
         history: [...prev.history, gameHistory],
       }))
 

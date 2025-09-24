@@ -24,10 +24,10 @@ export const saveCount = (count: number): void => {
 export const loadCount = (): number => {
   try {
     const saved = localStorage.getItem(APP_CONFIG.STORAGE_KEY.COUNT)
-    return saved ? parseInt(saved, 10) : -1
+    return saved ? parseInt(saved, 10) : 0
   } catch (error) {
     console.error('Failed to load count:', error)
-    return -1
+    return 0
   }
 }
 
