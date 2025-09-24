@@ -42,7 +42,7 @@ export const DeathTapCounter = () => {
 
     const tapEvent: TapEvent = {
       point,
-      zone: point.y <= rect.height * 0.8 ? "decrement" : "increment",
+      zone: point.y <= rect.height * 0.2 ? "decrement" : "increment",
       timestamp: Date.now(),
     };
 
@@ -127,31 +127,31 @@ export const DeathTapCounter = () => {
         role="button"
         tabIndex={0}
       >
-        {/* 上部エリア（80% - カウント減少ゾーン） */}
-        <div className="absolute top-0 left-0 w-full h-[80%] flex items-center justify-center bg-gradient-to-b from-red-900/20 to-red-800/10 border-b border-red-600/30">
-          <div className="text-center">
-            <div className="text-8xl sm:text-9xl md:text-[12rem] font-bold tabular-nums leading-none mb-4">
-              {Math.max(0, count)}
-            </div>
-            <div className="text-xl sm:text-2xl text-red-400 font-medium">
-              デス数
-            </div>
-          </div>
+        {/* 上部エリア（20% - カウント減少ゾーン） */}
+        <div className="absolute top-0 left-0 w-full h-[20%] flex items-center justify-center bg-gradient-to-b from-red-900/20 to-red-800/10 border-b border-red-600/30">
           <div className="absolute top-4 left-4 text-sm text-red-400/80">
             タップで -1
           </div>
         </div>
 
-        {/* 下部エリア（20% - カウント増加ゾーン） */}
-        <div className="absolute bottom-0 left-0 w-full h-[20%] flex items-center justify-center bg-gradient-to-b from-green-800/10 to-green-900/20">
-          <div className="text-xl sm:text-2xl text-green-400 font-medium">
+        {/* 下部エリア（80% - カウント増加ゾーン） */}
+        <div className="absolute bottom-0 left-0 w-full h-[80%] flex items-center justify-center bg-gradient-to-b from-green-800/10 to-green-900/20">
+          <div className="text-center">
+            <div className="text-8xl sm:text-9xl md:text-[12rem] font-bold tabular-nums leading-none mb-4">
+              {Math.max(0, count)}
+            </div>
+            <div className="text-xl sm:text-2xl text-green-400 font-medium">
+              デス数
+            </div>
+          </div>
+          <div className="absolute bottom-4 right-4 text-sm text-green-400/80">
             タップで +1
           </div>
         </div>
 
         {/* スワイプ指示 */}
-        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-center text-sm text-gray-400">
-          <div className="flex items-center gap-4">
+        <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 text-center text-xs text-gray-400/70">
+          <div className="flex items-center gap-2">
             <span className="flex items-center gap-1">
               <span>←</span> 負け
             </span>

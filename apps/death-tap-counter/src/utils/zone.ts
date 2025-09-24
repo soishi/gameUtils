@@ -9,7 +9,7 @@ import { APP_CONFIG } from "@/types/config";
  * 座標からタップゾーンを判定する
  * @param point - タップされた座標
  * @param screenHeight - 画面の高さ
- * @returns タップゾーン（decrement: 上80%, increment: 下20%）
+ * @returns タップゾーン（decrement: 上20%, increment: 下80%）
  */
 export const getTapZone = (point: Point, screenHeight: number): TapZone => {
   const zoneThreshold = screenHeight * APP_CONFIG.ZONE_RATIO;
