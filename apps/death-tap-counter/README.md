@@ -11,6 +11,7 @@ GitHub Pagesで公開中: **https://soishi.github.io/gameUtils/death-tap-counter
 ## 主な機能
 
 ### 基本操作
+
 - **タップでカウント**: 画面をタップしてデス数を増減
   - 上部70%エリア: タップでデス数+1
   - 下部30%エリア: タップでデス数-1（最小値0）
@@ -20,6 +21,7 @@ GitHub Pagesで公開中: **https://soishi.github.io/gameUtils/death-tap-counter
 - **Undo機能**: 直前の+1/-1操作を取り消し
 
 ### データ管理
+
 - **永続化**: ブラウザのLocalStorageにデータを保存（再読込後も維持）
 - **履歴管理**: 最大100件の試合履歴を保存
 - **統計表示**: 平均デス数、勝率、勝敗数を表示
@@ -27,21 +29,24 @@ GitHub Pagesで公開中: **https://soishi.github.io/gameUtils/death-tap-counter
 ## 操作方法
 
 ### 基本操作
+
 1. **デス数カウント**: 画面上部をタップして+1、下部をタップして-1
 2. **試合確定**: 画面を右にスワイプで勝利、左にスワイプで敗北として記録
 3. **履歴確認**: 右上のハンバーガーメニュー → 「履歴・統計」をタップ
 
 ### キーボードショートカット（PC用）
-| キー | 機能 |
-|------|------|
-| `Space` | +1 |
-| `↓` | -1 |
-| `Z` | やり直し（Undo） |
-| `→` | 勝利として確定 |
-| `←` | 敗北として確定 |
-| `H` | 履歴を開く |
+
+| キー    | 機能             |
+| ------- | ---------------- |
+| `Space` | +1               |
+| `↓`     | -1               |
+| `Z`     | やり直し（Undo） |
+| `→`     | 勝利として確定   |
+| `←`     | 敗北として確定   |
+| `H`     | 履歴を開く       |
 
 ### スワイプ設定
+
 - **最小距離**: 80px以上
 - **最小速度**: 0.2px/ms以上
 - **方向判定**: 水平方向の移動が垂直方向より大きい場合のみ有効
@@ -49,6 +54,7 @@ GitHub Pagesで公開中: **https://soishi.github.io/gameUtils/death-tap-counter
 ## 技術仕様
 
 ### フロントエンド
+
 - **Framework**: Next.js (App Router)
 - **言語**: TypeScript (strict mode)
 - **スタイル**: Tailwind CSS
@@ -56,6 +62,7 @@ GitHub Pagesで公開中: **https://soishi.github.io/gameUtils/death-tap-counter
 - **ビルド**: 静的サイトエクスポート
 
 ### 対応環境
+
 - **ブラウザ**: モダンブラウザ（最新2世代）
 - **デバイス**: スマートフォン、タブレット、PC対応
 - **オフライン**: ネット接続不要で動作
@@ -63,29 +70,34 @@ GitHub Pagesで公開中: **https://soishi.github.io/gameUtils/death-tap-counter
 ## 開発・ビルド
 
 ### セットアップ
+
 ```bash
 cd apps/death-tap-counter
 npm install
 ```
 
 ### 開発サーバー起動
+
 ```bash
 npm run dev
 ```
 
 ### テスト実行
+
 ```bash
 npm test          # 一回実行
 npm run test:watch # ウォッチモード
 ```
 
 ### ビルド
+
 ```bash
 npm run build     # 静的ファイル生成
 npm start         # ビルド後のプレビュー
 ```
 
 ### リント・型チェック
+
 ```bash
 npm run lint      # ESLint実行
 npx tsc --noEmit  # TypeScript型チェック
@@ -121,21 +133,23 @@ src/
 ## データ構造
 
 ### 履歴項目
+
 ```typescript
 interface GameHistory {
-  id: string;           // 一意ID
-  at: number;           // 記録時刻（epoch_ms）
-  count: number;        // デス数
-  result: 'W' | 'L';    // 試合結果
+  id: string; // 一意ID
+  at: number; // 記録時刻（epoch_ms）
+  count: number; // デス数
+  result: "W" | "L"; // 試合結果
 }
 ```
 
 ### 統計情報
+
 ```typescript
 interface GameStats {
-  avg: number;          // 平均デス数（小数点1桁）
-  wins: number;         // 勝利数
-  losses: number;       // 敗北数
+  avg: number; // 平均デス数（小数点1桁）
+  wins: number; // 勝利数
+  losses: number; // 敗北数
 }
 ```
 
@@ -155,6 +169,7 @@ interface GameStats {
 #### 設定手順
 
 1. **GitHubリポジトリの作成**
+
    ```bash
    git remote add origin https://github.com/soishi/gameUtils.git
    git push -u origin main
@@ -170,10 +185,12 @@ interface GameStats {
    - 完了後、`https://soishi.github.io/gameUtils/death-tap-counter/` でアクセス可能
 
 #### 自動デプロイトリガー
+
 - `main` ブランチへのプッシュ
 - 手動実行（Actions タブから）
 
 #### デプロイ内容
+
 - ビルド前の品質チェック（ESLint、テスト実行）
 - Next.js静的サイト生成
 - GitHub Pagesへのデプロイ
@@ -185,6 +202,7 @@ interface GameStats {
 **症状**: GitHub Actionsで "Get Pages site failed" エラーが発生
 
 **解決方法**:
+
 1. リポジトリの Settings > Pages へ移動
 2. Source を "GitHub Actions" に設定
 3. Actions タブから手動でワークフローを再実行
