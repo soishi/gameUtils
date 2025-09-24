@@ -8,7 +8,7 @@
 
 Splatoon用のシンプルなデス数カウンターアプリ
 
-- **🚀 デモサイト**: https://soishi.github.io/gameUtils/
+- **🚀 デモサイト**: https://soishi.github.io/gameUtils/death-tap-counter/
 - **主要機能**:
   - タップでデス数カウント（7:3分割ゾーン）
   - スワイプで試合結果記録

@@ -51,6 +51,85 @@ jobs:
           cd apps/death-tap-counter
           npm run build
 
+      - name: Prepare Pages structure
+        run: |
+          # Pages用のディレクトリ構造を作成
+          mkdir -p pages-deploy/death-tap-counter
+
+          # Death Tap Counterのビルド成果物をサブディレクトリにコピー
+          cp -r apps/death-tap-counter/out/* pages-deploy/death-tap-counter/
+
+          # ルートディレクトリにランディングページを作成
+          cat > pages-deploy/index.html << 'EOF'
+          <!DOCTYPE html>
+          <html lang="ja">
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Game Utils - ゲーム関連ユーティリティツール集</title>
+            <style>
+              body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 2rem;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                min-height: 100vh;
+              }
+              .card {
+                background: rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(10px);
+                border-radius: 16px;
+                padding: 2rem;
+                margin: 1rem 0;
+                border: 1px solid rgba(255, 255, 255, 0.2);
+              }
+              .app-link {
+                display: block;
+                text-decoration: none;
+                color: white;
+                padding: 1rem;
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 8px;
+                margin: 1rem 0;
+                transition: all 0.3s ease;
+              }
+              .app-link:hover {
+                background: rgba(255, 255, 255, 0.2);
+                transform: translateY(-2px);
+              }
+              h1, h2 { margin-top: 0; }
+              .emoji { font-size: 2rem; margin-right: 0.5rem; }
+            </style>
+          </head>
+          <body>
+            <div class="card">
+              <h1>🎮 Game Utils</h1>
+              <p>ゲーム関連のユーティリティツール集</p>
+            </div>
+
+            <div class="card">
+              <h2>📱 アプリケーション</h2>
+
+              <a href="./death-tap-counter/" class="app-link">
+                <span class="emoji">🎯</span>
+                <strong>Death Tap Counter</strong><br>
+                <small>Splatoon用デス数カウンター - タップとスワイプで簡単操作</small>
+              </a>
+            </div>
+
+            <div class="card">
+              <h2>🔗 リンク</h2>
+              <p>
+                <a href="https://github.com/soishi/gameUtils" style="color: #87CEEB;">📁 GitHub Repository</a><br>
+                <small>ソースコード・開発情報</small>
+              </p>
+            </div>
+          </body>
+          </html>
+          EOF
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
         with:
@@ -61,7 +140,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: 'apps/death-tap-counter/out'
+          path: 'pages-deploy'
 
   deploy:
     environment:

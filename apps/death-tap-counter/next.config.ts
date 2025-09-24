@@ -13,10 +13,10 @@ const nextConfig: NextConfig = {
   },
   // トレイリングスラッシュを追加
   trailingSlash: true,
-  // GitHub Pagesの場合はリポジトリ名をベースパスに設定
-  basePath: isGitHubPages ? `/${repoName}` : '',
+  // GitHub Pagesの場合はサブパスに配置
+  basePath: isGitHubPages ? `/${repoName}/death-tap-counter` : '',
   // アセットプレフィックスも同様に設定
-  assetPrefix: isGitHubPages ? `/${repoName}` : '',
+  assetPrefix: isGitHubPages ? `/${repoName}/death-tap-counter` : '',
 };
 
 export default nextConfig;
