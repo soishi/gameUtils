@@ -15,6 +15,7 @@ interface HistoryDrawerProps {
   onClearHistory: () => void
   onDeleteItem: (gameId: string) => void
   onUpdateItemCount: (gameId: string, newCount: number) => void
+  onUpdateItemResult: (gameId: string, newResult: 'W' | 'L') => void
 }
 
 export const HistoryDrawer = ({
@@ -24,6 +25,7 @@ export const HistoryDrawer = ({
   onClearHistory,
   onDeleteItem,
   onUpdateItemCount,
+  onUpdateItemResult,
 }: HistoryDrawerProps) => {
   const recentHistory = getRecentHistory(history, 10)
   const winRate = calculateWinRate(stats)
@@ -53,6 +55,11 @@ export const HistoryDrawer = ({
   const handleDeleteGame = (gameId: string) => {
     onDeleteItem(gameId)
     setEditingId(null)
+  }
+
+  const handleToggleResult = (gameId: string, currentResult: 'W' | 'L') => {
+    const newResult = currentResult === 'W' ? 'L' : 'W'
+    onUpdateItemResult(gameId, newResult)
   }
 
   return (
@@ -131,13 +138,29 @@ export const HistoryDrawer = ({
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div
-                        className={`w-8 h-8 rounded-full flex items-center justify-center font-bold ${
-                          game.result === 'W' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
-                        }`}
-                      >
-                        {game.result}
-                      </div>
+                      {editingId === game.id ? (
+                        <button
+                          onClick={() => handleToggleResult(game.id, game.result)}
+                          className={`w-8 h-8 rounded-full flex items-center justify-center font-bold transition-colors hover:scale-110 ${
+                            game.result === 'W'
+                              ? 'bg-green-500 hover:bg-green-600 text-white'
+                              : 'bg-red-500 hover:bg-red-600 text-white'
+                          }`}
+                          aria-label={`勝敗を変更 (現在: ${game.result === 'W' ? '勝利' : '敗北'})`}
+                        >
+                          {game.result}
+                        </button>
+                      ) : (
+                        <div
+                          className={`w-8 h-8 rounded-full flex items-center justify-center font-bold ${
+                            game.result === 'W'
+                              ? 'bg-green-500 text-white'
+                              : 'bg-red-500 text-white'
+                          }`}
+                        >
+                          {game.result}
+                        </div>
+                      )}
                       <div>
                         {editingId === game.id ? (
                           <div className="flex items-center gap-2">

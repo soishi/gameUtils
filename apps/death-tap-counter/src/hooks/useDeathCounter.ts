@@ -184,6 +184,18 @@ export const useDeathCounter = () => {
   }, [])
 
   /**
+   * 個別の履歴項目の勝敗結果を変更する
+   */
+  const updateHistoryItemResult = useCallback((gameId: string, newResult: GameResult) => {
+    setState((prev) => ({
+      ...prev,
+      history: prev.history.map((game) =>
+        game.id === gameId ? { ...game, result: newResult } : game,
+      ),
+    }))
+  }, [])
+
+  /**
    * 統計情報を取得する
    */
   const getStats = useCallback(() => {
@@ -207,6 +219,7 @@ export const useDeathCounter = () => {
     clearHistory,
     deleteHistoryItem,
     updateHistoryItemCount,
+    updateHistoryItemResult,
 
     // 統計
     getStats,

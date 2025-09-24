@@ -26,6 +26,7 @@ export const DeathTapCounter = () => {
     clearHistory,
     deleteHistoryItem,
     updateHistoryItemCount,
+    updateHistoryItemResult,
     getStats,
   } = useDeathCounter()
 
@@ -227,6 +228,7 @@ export const DeathTapCounter = () => {
           onClearHistory={clearHistory}
           onDeleteItem={deleteHistoryItem}
           onUpdateItemCount={updateHistoryItemCount}
+          onUpdateItemResult={updateHistoryItemResult}
         />
       )}
     </div>
