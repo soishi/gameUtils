@@ -11,12 +11,14 @@ interface HistoryDrawerProps {
   history: GameHistory[];
   stats: GameStats;
   onClose: () => void;
+  onClearHistory: () => void;
 }
 
 export const HistoryDrawer = ({
   history,
   stats,
   onClose,
+  onClearHistory,
 }: HistoryDrawerProps) => {
   const recentHistory = getRecentHistory(history, 10);
   const winRate = calculateWinRate(stats);
@@ -85,6 +87,18 @@ export const HistoryDrawer = ({
             </div>
           </div>
         </div>
+
+        {/* クリアボタン */}
+        {history.length > 0 && (
+          <div className="px-4 pb-2">
+            <button
+              onClick={onClearHistory}
+              className="w-full py-2 px-4 bg-red-600/80 hover:bg-red-600 text-white rounded-lg transition-colors text-sm font-medium"
+            >
+              履歴をクリア
+            </button>
+          </div>
+        )}
 
         {/* 履歴セクション */}
         <div className="p-4">

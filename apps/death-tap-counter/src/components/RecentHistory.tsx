@@ -12,6 +12,11 @@ export const RecentHistory = ({ history }: RecentHistoryProps) => {
   // 直近5件の履歴を取得（新しい順）
   const recentHistory = history.slice(-5).reverse();
 
+  // 履歴全体の勝率を計算
+  const totalGames = history.length;
+  const wins = history.filter((game) => game.result === "W").length;
+  const winRate = totalGames > 0 ? Math.round((wins / totalGames) * 100) : 0;
+
   if (recentHistory.length === 0) {
     return (
       <div className="text-center text-gray-500 text-sm py-2">履歴なし</div>
@@ -20,6 +25,11 @@ export const RecentHistory = ({ history }: RecentHistoryProps) => {
 
   return (
     <div className="flex flex-col gap-1 py-2">
+      {/* 履歴全体の勝率表示 */}
+      <div className="text-center text-xs text-gray-400 mb-1">
+        全{totalGames}戦 勝率{winRate}%
+      </div>
+
       {recentHistory.map((game) => (
         <div
           key={game.id}

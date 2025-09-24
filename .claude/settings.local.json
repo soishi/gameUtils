@@ -33,7 +33,8 @@
       "Bash(./gh-cli/bin/gh.exe issue close 4 --repo soishi/gameUtils)",
       "Bash(./gh-cli/bin/gh.exe issue view 5 --repo soishi/gameUtils)",
       "Bash(./gh-cli/bin/gh.exe issue close 5 --repo soishi/gameUtils)",
-      "Bash(C:/Users/oishi/win-project/gameUtils/gh-cli/bin/gh.exe issue close 5 --repo soishi/gameUtils)"
+      "Bash(C:/Users/oishi/win-project/gameUtils/gh-cli/bin/gh.exe issue close 5 --repo soishi/gameUtils)",
+      "Bash(powershell:*)"
     ],
     "deny": [],
     "ask": []

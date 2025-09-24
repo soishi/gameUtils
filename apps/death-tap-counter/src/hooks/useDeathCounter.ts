@@ -160,6 +160,14 @@ export const useDeathCounter = () => {
   }, []);
 
   /**
+   * 履歴をクリアする
+   */
+  const clearHistory = useCallback(() => {
+    setState((prev) => ({ ...prev, history: [] }));
+    setUndoStack([]);
+  }, []);
+
+  /**
    * 統計情報を取得する
    */
   const getStats = useCallback(() => {
@@ -180,6 +188,7 @@ export const useDeathCounter = () => {
     confirmGame,
     handleSwipe,
     toggleHistory,
+    clearHistory,
 
     // 統計
     getStats,
