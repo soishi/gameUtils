@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { DeathTapCounter } from '@/components/DeathTapCounter';
+import { DeathTapCounter } from "@/components/DeathTapCounter";
 
 export default function Home() {
   return <DeathTapCounter />;

@@ -2,8 +2,8 @@
  * LocalStorage管理のユーティリティ関数
  */
 
-import { GameHistory } from '@/types';
-import { APP_CONFIG } from '@/types/config';
+import { GameHistory } from "@/types";
+import { APP_CONFIG } from "@/types/config";
 
 /**
  * カウントをLocalStorageに保存する
@@ -13,7 +13,7 @@ export const saveCount = (count: number): void => {
   try {
     localStorage.setItem(APP_CONFIG.STORAGE_KEY.COUNT, count.toString());
   } catch (error) {
-    console.error('Failed to save count:', error);
+    console.error("Failed to save count:", error);
   }
 };
 
@@ -24,10 +24,10 @@ export const saveCount = (count: number): void => {
 export const loadCount = (): number => {
   try {
     const saved = localStorage.getItem(APP_CONFIG.STORAGE_KEY.COUNT);
-    return saved ? parseInt(saved, 10) : 0;
+    return saved ? parseInt(saved, 10) : -1;
   } catch (error) {
-    console.error('Failed to load count:', error);
-    return 0;
+    console.error("Failed to load count:", error);
+    return -1;
   }
 };
 
@@ -39,9 +39,12 @@ export const saveHistory = (history: GameHistory[]): void => {
   try {
     // 最大件数を超える場合は古いものから削除
     const limitedHistory = history.slice(-APP_CONFIG.MAX_HISTORY);
-    localStorage.setItem(APP_CONFIG.STORAGE_KEY.HISTORY, JSON.stringify(limitedHistory));
+    localStorage.setItem(
+      APP_CONFIG.STORAGE_KEY.HISTORY,
+      JSON.stringify(limitedHistory),
+    );
   } catch (error) {
-    console.error('Failed to save history:', error);
+    console.error("Failed to save history:", error);
   }
 };
 
@@ -54,7 +57,7 @@ export const loadHistory = (): GameHistory[] => {
     const saved = localStorage.getItem(APP_CONFIG.STORAGE_KEY.HISTORY);
     return saved ? JSON.parse(saved) : [];
   } catch (error) {
-    console.error('Failed to load history:', error);
+    console.error("Failed to load history:", error);
     return [];
   }
 };
@@ -67,6 +70,6 @@ export const clearAllData = (): void => {
     localStorage.removeItem(APP_CONFIG.STORAGE_KEY.COUNT);
     localStorage.removeItem(APP_CONFIG.STORAGE_KEY.HISTORY);
   } catch (error) {
-    console.error('Failed to clear data:', error);
+    console.error("Failed to clear data:", error);
   }
 };

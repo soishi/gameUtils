@@ -2,11 +2,11 @@
  * スワイプ検出用のカスタムフック
  */
 
-'use client';
+"use client";
 
-import { useState, useCallback, useRef } from 'react';
-import { Point, TouchEventData, SwipeData } from '@/types';
-import { analyzeSwipe } from '@/utils';
+import { useState, useCallback, useRef } from "react";
+import { Point, TouchEventData, SwipeData } from "@/types";
+import { analyzeSwipe } from "@/utils";
 
 interface UseSwipeDetectionProps {
   onSwipe: (swipeData: SwipeData) => void;
@@ -23,7 +23,7 @@ export const useSwipeDetection = ({ onSwipe }: UseSwipeDetectionProps) => {
     const touchData: TouchEventData = {
       point,
       timestamp: Date.now(),
-      type: 'start',
+      type: "start",
     };
 
     startData.current = touchData;
@@ -44,7 +44,7 @@ export const useSwipeDetection = ({ onSwipe }: UseSwipeDetectionProps) => {
         startData.current.point,
         point,
         startData.current.timestamp,
-        endTime
+        endTime,
       );
 
       onSwipe(swipeData);
@@ -53,22 +53,25 @@ export const useSwipeDetection = ({ onSwipe }: UseSwipeDetectionProps) => {
       startData.current = null;
       setIsTracking(false);
     },
-    [isTracking, onSwipe]
+    [isTracking, onSwipe],
   );
 
   /**
    * マウスイベントをタッチイベントに変換する
    */
-  const getPointFromEvent = useCallback((event: React.MouseEvent | React.TouchEvent): Point => {
-    if ('touches' in event) {
-      // タッチイベント
-      const touch = event.touches[0] || event.changedTouches[0];
-      return { x: touch.clientX, y: touch.clientY };
-    } else {
-      // マウスイベント
-      return { x: event.clientX, y: event.clientY };
-    }
-  }, []);
+  const getPointFromEvent = useCallback(
+    (event: React.MouseEvent | React.TouchEvent): Point => {
+      if ("touches" in event) {
+        // タッチイベント
+        const touch = event.touches[0] || event.changedTouches[0];
+        return { x: touch.clientX, y: touch.clientY };
+      } else {
+        // マウスイベント
+        return { x: event.clientX, y: event.clientY };
+      }
+    },
+    [],
+  );
 
   /**
    * マウス/タッチダウンイベントハンドラー
@@ -79,7 +82,7 @@ export const useSwipeDetection = ({ onSwipe }: UseSwipeDetectionProps) => {
       const point = getPointFromEvent(event);
       handleTouchStart(point);
     },
-    [getPointFromEvent, handleTouchStart]
+    [getPointFromEvent, handleTouchStart],
   );
 
   /**
@@ -91,7 +94,7 @@ export const useSwipeDetection = ({ onSwipe }: UseSwipeDetectionProps) => {
       const point = getPointFromEvent(event);
       handleTouchEnd(point);
     },
-    [getPointFromEvent, handleTouchEnd]
+    [getPointFromEvent, handleTouchEnd],
   );
 
   return {

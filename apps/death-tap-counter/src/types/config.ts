@@ -25,7 +25,7 @@ export const APP_CONFIG: AppConfig = {
     VELOCITY: 0.2,
   },
   STORAGE_KEY: {
-    COUNT: 'death_tap_counter_count',
-    HISTORY: 'death_tap_counter_history',
+    COUNT: "death_tap_counter_count",
+    HISTORY: "death_tap_counter_history",
   },
 } as const;

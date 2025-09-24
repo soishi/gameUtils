@@ -2,10 +2,16 @@
  * デスカウンター用のカスタムフック
  */
 
-'use client';
+"use client";
 
-import { useState, useEffect, useCallback } from 'react';
-import { GameHistory, GameResult, AppState, TapEvent, SwipeData } from '@/types';
+import { useState, useEffect, useCallback } from "react";
+import {
+  GameHistory,
+  GameResult,
+  AppState,
+  TapEvent,
+  SwipeData,
+} from "@/types";
 import {
   getTapZone,
   isValidSwipe,
@@ -14,11 +20,11 @@ import {
   saveHistory,
   loadHistory,
   calculateStats,
-} from '@/utils';
+} from "@/utils";
 
 export const useDeathCounter = () => {
   const [state, setState] = useState<AppState>({
-    count: 0,
+    count: -1,
     history: [],
     isHistoryOpen: false,
   });
@@ -58,11 +64,11 @@ export const useDeathCounter = () => {
   }, []);
 
   /**
-   * カウントを減少させる（下限0）
+   * カウントを減少させる（下限-1）
    */
   const decrementCount = useCallback(() => {
     setState((prev) => {
-      if (prev.count > 0) {
+      if (prev.count > -1) {
         setUndoStack((stack) => [...stack, prev.count]);
         return { ...prev, count: prev.count - 1 };
       }
@@ -77,13 +83,13 @@ export const useDeathCounter = () => {
     (tapEvent: TapEvent, screenHeight: number) => {
       const zone = getTapZone(tapEvent.point, screenHeight);
 
-      if (zone === 'increment') {
+      if (zone === "increment") {
         incrementCount();
       } else {
         decrementCount();
       }
     },
-    [incrementCount, decrementCount]
+    [incrementCount, decrementCount],
   );
 
   /**
@@ -105,20 +111,20 @@ export const useDeathCounter = () => {
       const gameHistory: GameHistory = {
         id: crypto.randomUUID(),
         at: Date.now(),
-        count: state.count,
+        count: Math.max(0, state.count),
         result,
       };
 
       setState((prev) => ({
         ...prev,
-        count: 0,
+        count: -1,
         history: [...prev.history, gameHistory],
       }));
 
       // Undoスタックもクリア
       setUndoStack([]);
     },
-    [state.count]
+    [state.count],
   );
 
   /**
@@ -127,11 +133,11 @@ export const useDeathCounter = () => {
   const handleSwipe = useCallback(
     (swipeData: SwipeData) => {
       if (isValidSwipe(swipeData)) {
-        const result: GameResult = swipeData.direction === 'right' ? 'W' : 'L';
+        const result: GameResult = swipeData.direction === "right" ? "W" : "L";
         confirmGame(result);
       }
     },
-    [confirmGame]
+    [confirmGame],
   );
 
   /**

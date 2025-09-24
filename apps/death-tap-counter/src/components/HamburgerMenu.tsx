@@ -2,9 +2,9 @@
  * ハンバーガーメニューコンポーネント
  */
 
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 
 interface HamburgerMenuProps {
   onHistoryClick: () => void;
@@ -12,7 +12,11 @@ interface HamburgerMenuProps {
   onUndoClick: () => void;
 }
 
-export const HamburgerMenu = ({ onHistoryClick, canUndo, onUndoClick }: HamburgerMenuProps) => {
+export const HamburgerMenu = ({
+  onHistoryClick,
+  canUndo,
+  onUndoClick,
+}: HamburgerMenuProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -40,17 +44,17 @@ export const HamburgerMenu = ({ onHistoryClick, canUndo, onUndoClick }: Hamburge
       >
         <div
           className={`w-6 h-0.5 bg-white transition-all duration-300 ${
-            isOpen ? 'rotate-45 translate-y-1.5' : ''
+            isOpen ? "rotate-45 translate-y-1.5" : ""
           }`}
         />
         <div
           className={`w-6 h-0.5 bg-white transition-all duration-300 ${
-            isOpen ? 'opacity-0' : ''
+            isOpen ? "opacity-0" : ""
           }`}
         />
         <div
           className={`w-6 h-0.5 bg-white transition-all duration-300 ${
-            isOpen ? '-rotate-45 -translate-y-1.5' : ''
+            isOpen ? "-rotate-45 -translate-y-1.5" : ""
           }`}
         />
       </button>
@@ -67,8 +71,8 @@ export const HamburgerMenu = ({ onHistoryClick, canUndo, onUndoClick }: Hamburge
       <div
         className={`absolute top-14 right-0 bg-gray-800/95 backdrop-blur-sm rounded-lg shadow-lg transition-all duration-300 ${
           isOpen
-            ? 'opacity-100 translate-y-0 scale-100'
-            : 'opacity-0 -translate-y-2 scale-95 pointer-events-none'
+            ? "opacity-100 translate-y-0 scale-100"
+            : "opacity-0 -translate-y-2 scale-95 pointer-events-none"
         }`}
       >
         <div className="p-2 min-w-[200px]">
@@ -87,8 +91,8 @@ export const HamburgerMenu = ({ onHistoryClick, canUndo, onUndoClick }: Hamburge
             disabled={!canUndo}
             className={`w-full px-4 py-3 text-left rounded-md transition-colors flex items-center gap-3 ${
               canUndo
-                ? 'hover:bg-gray-700/50 text-white'
-                : 'text-gray-500 cursor-not-allowed'
+                ? "hover:bg-gray-700/50 text-white"
+                : "text-gray-500 cursor-not-allowed"
             }`}
           >
             <span className="text-xl">↶</span>

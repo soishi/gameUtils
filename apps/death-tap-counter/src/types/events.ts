@@ -2,7 +2,7 @@
  * イベント関連の型定義
  */
 
-import { TapZone, SwipeDirection } from './ui';
+import { TapZone, SwipeDirection } from "./ui";
 
 // 座標の型
 export interface Point {
@@ -31,5 +31,5 @@ export interface TapEvent {
 export interface TouchEventData {
   point: Point;
   timestamp: number;
-  type: 'start' | 'move' | 'end';
+  type: "start" | "move" | "end";
 }

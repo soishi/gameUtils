@@ -2,7 +2,7 @@
  * 統計計算のユーティリティ関数
  */
 
-import { GameHistory, GameStats } from '@/types';
+import { GameHistory, GameStats } from "@/types";
 
 /**
  * 履歴から統計を計算する
@@ -18,8 +18,8 @@ export const calculateStats = (history: GameHistory[]): GameStats => {
     };
   }
 
-  const wins = history.filter((game) => game.result === 'W').length;
-  const losses = history.filter((game) => game.result === 'L').length;
+  const wins = history.filter((game) => game.result === "W").length;
+  const losses = history.filter((game) => game.result === "L").length;
   const totalDeaths = history.reduce((sum, game) => sum + game.count, 0);
   const avg = Math.round((totalDeaths / history.length) * 10) / 10; // 小数点1桁で四捨五入
 
@@ -59,7 +59,10 @@ export const sortHistoryByDate = (history: GameHistory[]): GameHistory[] => {
  * @param limit - 取得する件数
  * @returns フィルタリングされた履歴
  */
-export const getRecentHistory = (history: GameHistory[], limit: number): GameHistory[] => {
+export const getRecentHistory = (
+  history: GameHistory[],
+  limit: number,
+): GameHistory[] => {
   const sorted = sortHistoryByDate(history);
   return sorted.slice(0, limit);
 };

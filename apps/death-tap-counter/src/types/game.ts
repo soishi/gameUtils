@@ -3,7 +3,7 @@
  */
 
 // 試合結果の型
-export type GameResult = 'W' | 'L';
+export type GameResult = "W" | "L";
 
 // 履歴項目の型
 export interface GameHistory {

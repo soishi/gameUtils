@@ -2,8 +2,8 @@
  * スワイプ判定のユーティリティ関数
  */
 
-import { Point, SwipeData, SwipeDirection } from '@/types';
-import { APP_CONFIG } from '@/types/config';
+import { Point, SwipeData, SwipeDirection } from "@/types";
+import { APP_CONFIG } from "@/types/config";
 
 /**
  * 2点間の距離を計算する
@@ -23,7 +23,10 @@ export const calculateDistance = (start: Point, end: Point): number => {
  * @param duration - スワイプ時間（ms）
  * @returns 速度（px/ms）
  */
-export const calculateVelocity = (distance: number, duration: number): number => {
+export const calculateVelocity = (
+  distance: number,
+  duration: number,
+): number => {
   return duration > 0 ? distance / duration : 0;
 };
 
@@ -42,7 +45,7 @@ export const getSwipeDirection = (start: Point, end: Point): SwipeDirection => {
     return null;
   }
 
-  return deltaX > 0 ? 'right' : 'left';
+  return deltaX > 0 ? "right" : "left";
 };
 
 /**
@@ -57,7 +60,7 @@ export const analyzeSwipe = (
   startPoint: Point,
   endPoint: Point,
   startTime: number,
-  endTime: number
+  endTime: number,
 ): SwipeData => {
   const distance = calculateDistance(startPoint, endPoint);
   const duration = endTime - startTime;

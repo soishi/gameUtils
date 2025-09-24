@@ -2,10 +2,10 @@
  * 履歴ドロワーコンポーネント
  */
 
-'use client';
+"use client";
 
-import { GameHistory, GameStats } from '@/types';
-import { getRecentHistory, calculateWinRate } from '@/utils';
+import { GameHistory, GameStats } from "@/types";
+import { getRecentHistory, calculateWinRate } from "@/utils";
 
 interface HistoryDrawerProps {
   history: GameHistory[];
@@ -13,17 +13,21 @@ interface HistoryDrawerProps {
   onClose: () => void;
 }
 
-export const HistoryDrawer = ({ history, stats, onClose }: HistoryDrawerProps) => {
+export const HistoryDrawer = ({
+  history,
+  stats,
+  onClose,
+}: HistoryDrawerProps) => {
   const recentHistory = getRecentHistory(history, 10);
   const winRate = calculateWinRate(stats);
 
   const formatDate = (timestamp: number) => {
     const date = new Date(timestamp);
-    return new Intl.DateTimeFormat('ja-JP', {
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
+    return new Intl.DateTimeFormat("ja-JP", {
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
     }).format(date);
   };
 
@@ -99,16 +103,17 @@ export const HistoryDrawer = ({ history, stats, onClose }: HistoryDrawerProps) =
                   key={game.id}
                   className="bg-gray-800/50 rounded-lg p-3 border-l-4"
                   style={{
-                    borderLeftColor: game.result === 'W' ? '#10b981' : '#ef4444',
+                    borderLeftColor:
+                      game.result === "W" ? "#10b981" : "#ef4444",
                   }}
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <div
                         className={`w-8 h-8 rounded-full flex items-center justify-center font-bold ${
-                          game.result === 'W'
-                            ? 'bg-green-500 text-white'
-                            : 'bg-red-500 text-white'
+                          game.result === "W"
+                            ? "bg-green-500 text-white"
+                            : "bg-red-500 text-white"
                         }`}
                       >
                         {game.result}
