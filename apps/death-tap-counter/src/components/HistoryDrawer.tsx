@@ -4,6 +4,7 @@
 
 'use client'
 
+import { useState } from 'react'
 import { GameHistory, GameStats } from '@/types'
 import { getRecentHistory, calculateWinRate } from '@/utils'
 
@@ -12,11 +13,21 @@ interface HistoryDrawerProps {
   stats: GameStats
   onClose: () => void
   onClearHistory: () => void
+  onDeleteItem: (gameId: string) => void
+  onUpdateItemCount: (gameId: string, newCount: number) => void
 }
 
-export const HistoryDrawer = ({ history, stats, onClose, onClearHistory }: HistoryDrawerProps) => {
+export const HistoryDrawer = ({
+  history,
+  stats,
+  onClose,
+  onClearHistory,
+  onDeleteItem,
+  onUpdateItemCount,
+}: HistoryDrawerProps) => {
   const recentHistory = getRecentHistory(history, 10)
   const winRate = calculateWinRate(stats)
+  const [editingId, setEditingId] = useState<string | null>(null)
 
   const formatDate = (timestamp: number) => {
     const date = new Date(timestamp)
@@ -26,6 +37,22 @@ export const HistoryDrawer = ({ history, stats, onClose, onClearHistory }: Histo
       hour: '2-digit',
       minute: '2-digit',
     }).format(date)
+  }
+
+  // 編集機能のヘルパー関数
+  const handleDecrementCount = (gameId: string, currentCount: number) => {
+    if (currentCount > 0) {
+      onUpdateItemCount(gameId, currentCount - 1)
+    }
+  }
+
+  const handleIncrementCount = (gameId: string, currentCount: number) => {
+    onUpdateItemCount(gameId, currentCount + 1)
+  }
+
+  const handleDeleteGame = (gameId: string) => {
+    onDeleteItem(gameId)
+    setEditingId(null)
   }
 
   return (
@@ -112,9 +139,54 @@ export const HistoryDrawer = ({ history, stats, onClose, onClearHistory }: Histo
                         {game.result}
                       </div>
                       <div>
-                        <div className="text-white font-medium">デス数: {game.count}</div>
+                        {editingId === game.id ? (
+                          <div className="flex items-center gap-2">
+                            <button
+                              onClick={() => handleDecrementCount(game.id, game.count)}
+                              className="w-7 h-7 rounded-full bg-red-600 hover:bg-red-500 text-white flex items-center justify-center text-sm font-bold"
+                            >
+                              -
+                            </button>
+                            <span className="text-white font-medium min-w-[4rem] text-center">
+                              {game.count}デス
+                            </span>
+                            <button
+                              onClick={() => handleIncrementCount(game.id, game.count)}
+                              className="w-7 h-7 rounded-full bg-green-600 hover:bg-green-500 text-white flex items-center justify-center text-sm font-bold"
+                            >
+                              +
+                            </button>
+                          </div>
+                        ) : (
+                          <div className="text-white font-medium">デス数: {game.count}</div>
+                        )}
                         <div className="text-sm text-gray-400">{formatDate(game.at)}</div>
                       </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      {editingId === game.id ? (
+                        <>
+                          <button
+                            onClick={() => handleDeleteGame(game.id)}
+                            className="px-2 py-1 text-xs bg-red-600 hover:bg-red-500 text-white rounded transition-colors"
+                          >
+                            削除
+                          </button>
+                          <button
+                            onClick={() => setEditingId(null)}
+                            className="px-2 py-1 text-xs bg-gray-600 hover:bg-gray-500 text-white rounded transition-colors"
+                          >
+                            完了
+                          </button>
+                        </>
+                      ) : (
+                        <button
+                          onClick={() => setEditingId(game.id)}
+                          className="px-2 py-1 text-xs bg-blue-600 hover:bg-blue-500 text-white rounded transition-colors"
+                        >
+                          編集
+                        </button>
+                      )}
                     </div>
                   </div>
                 </div>

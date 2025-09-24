@@ -162,6 +162,28 @@ export const useDeathCounter = () => {
   }, [])
 
   /**
+   * 個別の履歴項目を削除する
+   */
+  const deleteHistoryItem = useCallback((gameId: string) => {
+    setState((prev) => ({
+      ...prev,
+      history: prev.history.filter((game) => game.id !== gameId),
+    }))
+  }, [])
+
+  /**
+   * 個別の履歴項目のデス数を変更する
+   */
+  const updateHistoryItemCount = useCallback((gameId: string, newCount: number) => {
+    setState((prev) => ({
+      ...prev,
+      history: prev.history.map((game) =>
+        game.id === gameId ? { ...game, count: Math.max(0, newCount) } : game,
+      ),
+    }))
+  }, [])
+
+  /**
    * 統計情報を取得する
    */
   const getStats = useCallback(() => {
@@ -183,6 +205,8 @@ export const useDeathCounter = () => {
     handleSwipe,
     toggleHistory,
     clearHistory,
+    deleteHistoryItem,
+    updateHistoryItemCount,
 
     // 統計
     getStats,
