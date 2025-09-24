@@ -12,6 +12,10 @@
 - Issue詳細表示: `powershell -Command "& 'C:\Program Files\GitHub CLI\gh.exe' issue view [issue番号]"`
 - Issue作成: `powershell -Command "& 'C:\Program Files\GitHub CLI\gh.exe' issue create"`
 - Issueクローズ: `powershell -Command "& 'C:\Program Files\GitHub CLI\gh.exe' issue close [issue番号]"`
+
+### フォーマット
+- フォーマット実行: `cd apps/death-tap-counter && npm run format`
+- フォーマット確認: `cd apps/death-tap-counter && npm run format:check`
 # 開発規約
 
 ## 基本方針

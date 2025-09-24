@@ -3,12 +3,12 @@
  * 直接履歴を表示する履歴ボタンとして機能
  */
 
-"use client";
+'use client'
 
 interface HamburgerMenuProps {
-  onHistoryClick: () => void;
-  canUndo: boolean;
-  onUndoClick: () => void;
+  onHistoryClick: () => void
+  canUndo: boolean
+  onUndoClick: () => void
 }
 
 export const HamburgerMenu = ({ onHistoryClick }: HamburgerMenuProps) => {
@@ -23,5 +23,5 @@ export const HamburgerMenu = ({ onHistoryClick }: HamburgerMenuProps) => {
         <span className="text-xl">📊</span>
       </button>
     </div>
-  );
-};
+  )
+}

@@ -2,16 +2,10 @@
  * デスカウンター用のカスタムフック
  */
 
-"use client";
+'use client'
 
-import { useState, useEffect, useCallback } from "react";
-import {
-  GameHistory,
-  GameResult,
-  AppState,
-  TapEvent,
-  SwipeData,
-} from "@/types";
+import { useState, useEffect, useCallback } from 'react'
+import { GameHistory, GameResult, AppState, TapEvent, SwipeData } from '@/types'
 import {
   getTapZone,
   isValidSwipe,
@@ -20,58 +14,58 @@ import {
   saveHistory,
   loadHistory,
   calculateStats,
-} from "@/utils";
+} from '@/utils'
 
 export const useDeathCounter = () => {
   const [state, setState] = useState<AppState>({
     count: -1,
     history: [],
     isHistoryOpen: false,
-  });
+  })
 
-  const [undoStack, setUndoStack] = useState<number[]>([]);
-  const [isFlashing, setIsFlashing] = useState(false);
+  const [undoStack, setUndoStack] = useState<number[]>([])
+  const [isFlashing, setIsFlashing] = useState(false)
 
   // 初期化: LocalStorageからデータを読み込み
   useEffect(() => {
-    const savedCount = loadCount();
-    const savedHistory = loadHistory();
+    const savedCount = loadCount()
+    const savedHistory = loadHistory()
 
     setState((prev) => ({
       ...prev,
       count: savedCount,
       history: savedHistory,
-    }));
-  }, []);
+    }))
+  }, [])
 
   // カウント変更時にLocalStorageに保存
   useEffect(() => {
-    saveCount(state.count);
-  }, [state.count]);
+    saveCount(state.count)
+  }, [state.count])
 
   // 履歴変更時にLocalStorageに保存
   useEffect(() => {
-    saveHistory(state.history);
-  }, [state.history]);
+    saveHistory(state.history)
+  }, [state.history])
 
   /**
    * 点滅エフェクトを実行する
    */
   const triggerFlash = useCallback(() => {
-    setIsFlashing(true);
-    setTimeout(() => setIsFlashing(false), 150);
-  }, []);
+    setIsFlashing(true)
+    setTimeout(() => setIsFlashing(false), 150)
+  }, [])
 
   /**
    * カウントを増加させる
    */
   const incrementCount = useCallback(() => {
     setState((prev) => {
-      setUndoStack((stack) => [...stack, prev.count]);
-      return { ...prev, count: prev.count + 1 };
-    });
-    triggerFlash();
-  }, [triggerFlash]);
+      setUndoStack((stack) => [...stack, prev.count])
+      return { ...prev, count: prev.count + 1 }
+    })
+    triggerFlash()
+  }, [triggerFlash])
 
   /**
    * カウントを減少させる（下限-1）
@@ -79,41 +73,41 @@ export const useDeathCounter = () => {
   const decrementCount = useCallback(() => {
     setState((prev) => {
       if (prev.count > -1) {
-        setUndoStack((stack) => [...stack, prev.count]);
-        triggerFlash();
-        return { ...prev, count: prev.count - 1 };
+        setUndoStack((stack) => [...stack, prev.count])
+        triggerFlash()
+        return { ...prev, count: prev.count - 1 }
       }
-      return prev;
-    });
-  }, [triggerFlash]);
+      return prev
+    })
+  }, [triggerFlash])
 
   /**
    * タップイベントを処理する
    */
   const handleTap = useCallback(
     (tapEvent: TapEvent, screenHeight: number) => {
-      const zone = getTapZone(tapEvent.point, screenHeight);
+      const zone = getTapZone(tapEvent.point, screenHeight)
 
-      if (zone === "increment") {
-        incrementCount();
+      if (zone === 'increment') {
+        incrementCount()
       } else {
-        decrementCount();
+        decrementCount()
       }
     },
     [incrementCount, decrementCount],
-  );
+  )
 
   /**
    * Undo操作を実行する
    */
   const undoLastAction = useCallback(() => {
     if (undoStack.length > 0) {
-      const lastCount = undoStack[undoStack.length - 1];
-      setUndoStack((stack) => stack.slice(0, -1));
-      setState((prev) => ({ ...prev, count: lastCount }));
-      triggerFlash();
+      const lastCount = undoStack[undoStack.length - 1]
+      setUndoStack((stack) => stack.slice(0, -1))
+      setState((prev) => ({ ...prev, count: lastCount }))
+      triggerFlash()
     }
-  }, [undoStack, triggerFlash]);
+  }, [undoStack, triggerFlash])
 
   /**
    * 試合を確定する
@@ -125,19 +119,19 @@ export const useDeathCounter = () => {
         at: Date.now(),
         count: Math.max(0, state.count),
         result,
-      };
+      }
 
       setState((prev) => ({
         ...prev,
         count: -1,
         history: [...prev.history, gameHistory],
-      }));
+      }))
 
       // Undoスタックもクリア
-      setUndoStack([]);
+      setUndoStack([])
     },
     [state.count],
-  );
+  )
 
   /**
    * スワイプから試合確定を処理する
@@ -145,34 +139,34 @@ export const useDeathCounter = () => {
   const handleSwipe = useCallback(
     (swipeData: SwipeData) => {
       if (isValidSwipe(swipeData)) {
-        const result: GameResult = swipeData.direction === "right" ? "W" : "L";
-        confirmGame(result);
+        const result: GameResult = swipeData.direction === 'right' ? 'W' : 'L'
+        confirmGame(result)
       }
     },
     [confirmGame],
-  );
+  )
 
   /**
    * 履歴モーダルの表示/非表示を切り替える
    */
   const toggleHistory = useCallback(() => {
-    setState((prev) => ({ ...prev, isHistoryOpen: !prev.isHistoryOpen }));
-  }, []);
+    setState((prev) => ({ ...prev, isHistoryOpen: !prev.isHistoryOpen }))
+  }, [])
 
   /**
    * 履歴をクリアする
    */
   const clearHistory = useCallback(() => {
-    setState((prev) => ({ ...prev, history: [] }));
-    setUndoStack([]);
-  }, []);
+    setState((prev) => ({ ...prev, history: [] }))
+    setUndoStack([])
+  }, [])
 
   /**
    * 統計情報を取得する
    */
   const getStats = useCallback(() => {
-    return calculateStats(state.history);
-  }, [state.history]);
+    return calculateStats(state.history)
+  }, [state.history])
 
   return {
     // 状態
@@ -192,5 +186,5 @@ export const useDeathCounter = () => {
 
     // 統計
     getStats,
-  };
-};
+  }
+}

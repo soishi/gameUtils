@@ -2,8 +2,8 @@
  * LocalStorage管理のユーティリティ関数
  */
 
-import { GameHistory } from "@/types";
-import { APP_CONFIG } from "@/types/config";
+import { GameHistory } from '@/types'
+import { APP_CONFIG } from '@/types/config'
 
 /**
  * カウントをLocalStorageに保存する
@@ -11,11 +11,11 @@ import { APP_CONFIG } from "@/types/config";
  */
 export const saveCount = (count: number): void => {
   try {
-    localStorage.setItem(APP_CONFIG.STORAGE_KEY.COUNT, count.toString());
+    localStorage.setItem(APP_CONFIG.STORAGE_KEY.COUNT, count.toString())
   } catch (error) {
-    console.error("Failed to save count:", error);
+    console.error('Failed to save count:', error)
   }
-};
+}
 
 /**
  * カウントをLocalStorageから読み込む
@@ -23,13 +23,13 @@ export const saveCount = (count: number): void => {
  */
 export const loadCount = (): number => {
   try {
-    const saved = localStorage.getItem(APP_CONFIG.STORAGE_KEY.COUNT);
-    return saved ? parseInt(saved, 10) : -1;
+    const saved = localStorage.getItem(APP_CONFIG.STORAGE_KEY.COUNT)
+    return saved ? parseInt(saved, 10) : -1
   } catch (error) {
-    console.error("Failed to load count:", error);
-    return -1;
+    console.error('Failed to load count:', error)
+    return -1
   }
-};
+}
 
 /**
  * 履歴をLocalStorageに保存する
@@ -38,15 +38,12 @@ export const loadCount = (): number => {
 export const saveHistory = (history: GameHistory[]): void => {
   try {
     // 最大件数を超える場合は古いものから削除
-    const limitedHistory = history.slice(-APP_CONFIG.MAX_HISTORY);
-    localStorage.setItem(
-      APP_CONFIG.STORAGE_KEY.HISTORY,
-      JSON.stringify(limitedHistory),
-    );
+    const limitedHistory = history.slice(-APP_CONFIG.MAX_HISTORY)
+    localStorage.setItem(APP_CONFIG.STORAGE_KEY.HISTORY, JSON.stringify(limitedHistory))
   } catch (error) {
-    console.error("Failed to save history:", error);
+    console.error('Failed to save history:', error)
   }
-};
+}
 
 /**
  * 履歴をLocalStorageから読み込む
@@ -54,22 +51,22 @@ export const saveHistory = (history: GameHistory[]): void => {
  */
 export const loadHistory = (): GameHistory[] => {
   try {
-    const saved = localStorage.getItem(APP_CONFIG.STORAGE_KEY.HISTORY);
-    return saved ? JSON.parse(saved) : [];
+    const saved = localStorage.getItem(APP_CONFIG.STORAGE_KEY.HISTORY)
+    return saved ? JSON.parse(saved) : []
   } catch (error) {
-    console.error("Failed to load history:", error);
-    return [];
+    console.error('Failed to load history:', error)
+    return []
   }
-};
+}
 
 /**
  * 全データをクリアする
  */
 export const clearAllData = (): void => {
   try {
-    localStorage.removeItem(APP_CONFIG.STORAGE_KEY.COUNT);
-    localStorage.removeItem(APP_CONFIG.STORAGE_KEY.HISTORY);
+    localStorage.removeItem(APP_CONFIG.STORAGE_KEY.COUNT)
+    localStorage.removeItem(APP_CONFIG.STORAGE_KEY.HISTORY)
   } catch (error) {
-    console.error("Failed to clear data:", error);
+    console.error('Failed to clear data:', error)
   }
-};
+}

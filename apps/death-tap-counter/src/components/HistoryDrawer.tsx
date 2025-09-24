@@ -2,44 +2,36 @@
  * 履歴ドロワーコンポーネント
  */
 
-"use client";
+'use client'
 
-import { GameHistory, GameStats } from "@/types";
-import { getRecentHistory, calculateWinRate } from "@/utils";
+import { GameHistory, GameStats } from '@/types'
+import { getRecentHistory, calculateWinRate } from '@/utils'
 
 interface HistoryDrawerProps {
-  history: GameHistory[];
-  stats: GameStats;
-  onClose: () => void;
-  onClearHistory: () => void;
+  history: GameHistory[]
+  stats: GameStats
+  onClose: () => void
+  onClearHistory: () => void
 }
 
-export const HistoryDrawer = ({
-  history,
-  stats,
-  onClose,
-  onClearHistory,
-}: HistoryDrawerProps) => {
-  const recentHistory = getRecentHistory(history, 10);
-  const winRate = calculateWinRate(stats);
+export const HistoryDrawer = ({ history, stats, onClose, onClearHistory }: HistoryDrawerProps) => {
+  const recentHistory = getRecentHistory(history, 10)
+  const winRate = calculateWinRate(stats)
 
   const formatDate = (timestamp: number) => {
-    const date = new Date(timestamp);
-    return new Intl.DateTimeFormat("ja-JP", {
-      month: "short",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    }).format(date);
-  };
+    const date = new Date(timestamp)
+    return new Intl.DateTimeFormat('ja-JP', {
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    }).format(date)
+  }
 
   return (
     <div className="fixed inset-0 z-50 flex">
       {/* オーバーレイ */}
-      <div
-        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
-        onClick={onClose}
-      />
+      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
 
       {/* ドロワー */}
       <div className="relative ml-auto w-full max-w-md bg-gray-900 shadow-xl overflow-y-auto">
@@ -62,27 +54,19 @@ export const HistoryDrawer = ({
           <h3 className="text-lg font-semibold text-white mb-3">統計情報</h3>
           <div className="grid grid-cols-2 gap-4">
             <div className="bg-gray-800/80 rounded-lg p-3 text-center">
-              <div className="text-2xl font-bold text-blue-400 tabular-nums">
-                {stats.avg}
-              </div>
+              <div className="text-2xl font-bold text-blue-400 tabular-nums">{stats.avg}</div>
               <div className="text-sm text-gray-300">平均デス数</div>
             </div>
             <div className="bg-gray-800/80 rounded-lg p-3 text-center">
-              <div className="text-2xl font-bold text-purple-400 tabular-nums">
-                {winRate}%
-              </div>
+              <div className="text-2xl font-bold text-purple-400 tabular-nums">{winRate}%</div>
               <div className="text-sm text-gray-300">勝率</div>
             </div>
             <div className="bg-gray-800/80 rounded-lg p-3 text-center">
-              <div className="text-2xl font-bold text-green-400 tabular-nums">
-                {stats.wins}
-              </div>
+              <div className="text-2xl font-bold text-green-400 tabular-nums">{stats.wins}</div>
               <div className="text-sm text-gray-300">勝利</div>
             </div>
             <div className="bg-gray-800/80 rounded-lg p-3 text-center">
-              <div className="text-2xl font-bold text-red-400 tabular-nums">
-                {stats.losses}
-              </div>
+              <div className="text-2xl font-bold text-red-400 tabular-nums">{stats.losses}</div>
               <div className="text-sm text-gray-300">敗北</div>
             </div>
           </div>
@@ -107,9 +91,7 @@ export const HistoryDrawer = ({
           </h3>
 
           {recentHistory.length === 0 ? (
-            <div className="text-center py-8 text-gray-400">
-              まだ試合履歴がありません
-            </div>
+            <div className="text-center py-8 text-gray-400">まだ試合履歴がありません</div>
           ) : (
             <div className="space-y-3">
               {recentHistory.map((game) => (
@@ -117,28 +99,21 @@ export const HistoryDrawer = ({
                   key={game.id}
                   className="bg-gray-800/50 rounded-lg p-3 border-l-4"
                   style={{
-                    borderLeftColor:
-                      game.result === "W" ? "#10b981" : "#ef4444",
+                    borderLeftColor: game.result === 'W' ? '#10b981' : '#ef4444',
                   }}
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <div
                         className={`w-8 h-8 rounded-full flex items-center justify-center font-bold ${
-                          game.result === "W"
-                            ? "bg-green-500 text-white"
-                            : "bg-red-500 text-white"
+                          game.result === 'W' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
                         }`}
                       >
                         {game.result}
                       </div>
                       <div>
-                        <div className="text-white font-medium">
-                          デス数: {game.count}
-                        </div>
-                        <div className="text-sm text-gray-400">
-                          {formatDate(game.at)}
-                        </div>
+                        <div className="text-white font-medium">デス数: {game.count}</div>
+                        <div className="text-sm text-gray-400">{formatDate(game.at)}</div>
                       </div>
                     </div>
                   </div>
@@ -156,5 +131,5 @@ export const HistoryDrawer = ({
         )}
       </div>
     </div>
-  );
-};
+  )
+}

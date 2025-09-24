@@ -2,8 +2,8 @@
  * タップゾーン判定のユーティリティ関数
  */
 
-import { Point, TapZone } from "@/types";
-import { APP_CONFIG } from "@/types/config";
+import { Point, TapZone } from '@/types'
+import { APP_CONFIG } from '@/types/config'
 
 /**
  * 座標からタップゾーンを判定する
@@ -12,10 +12,10 @@ import { APP_CONFIG } from "@/types/config";
  * @returns タップゾーン（decrement: 上20%, increment: 下80%）
  */
 export const getTapZone = (point: Point, screenHeight: number): TapZone => {
-  const zoneThreshold = screenHeight * APP_CONFIG.ZONE_RATIO;
+  const zoneThreshold = screenHeight * APP_CONFIG.ZONE_RATIO
 
-  return point.y <= zoneThreshold ? "decrement" : "increment";
-};
+  return point.y <= zoneThreshold ? 'decrement' : 'increment'
+}
 
 /**
  * 座標が有効かどうかを判定する
@@ -24,15 +24,6 @@ export const getTapZone = (point: Point, screenHeight: number): TapZone => {
  * @param screenHeight - 画面の高さ
  * @returns 座標が画面内にあるかどうか
  */
-export const isValidPoint = (
-  point: Point,
-  screenWidth: number,
-  screenHeight: number,
-): boolean => {
-  return (
-    point.x >= 0 &&
-    point.x <= screenWidth &&
-    point.y >= 0 &&
-    point.y <= screenHeight
-  );
-};
+export const isValidPoint = (point: Point, screenWidth: number, screenHeight: number): boolean => {
+  return point.x >= 0 && point.x <= screenWidth && point.y >= 0 && point.y <= screenHeight
+}
