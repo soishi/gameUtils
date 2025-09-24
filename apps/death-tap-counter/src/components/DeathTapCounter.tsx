@@ -181,7 +181,7 @@ export const DeathTapCounter = () => {
           }`}
         >
           <div className="text-center flex-shrink-0">
-            <div className="text-8xl sm:text-9xl md:text-[12rem] font-bold tabular-nums leading-none mb-4">
+            <div className="text-[40vw] sm:text-[35vw] md:text-[30vw] lg:text-[25vw] font-bold tabular-nums leading-none mb-4">
               {Math.max(0, count)}
             </div>
             <div className="text-xl sm:text-2xl text-green-400 font-medium mb-4">デス数</div>
