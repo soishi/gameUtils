@@ -2,6 +2,12 @@
 
 Splatoon用のシンプルなデス数カウンターアプリです。画面をタップしてデス数をカウントし、スワイプで試合結果を記録できます。
 
+## 🚀 デモ
+
+GitHub Pagesで公開中: **https://[username].github.io/[repository-name]/**
+
+> **注意**: GitHubリポジトリの作成後、Settings > Pages でGitHub Actionsをソースに設定してください。
+
 ## 主な機能
 
 ### 基本操作
@@ -139,6 +145,38 @@ interface GameStats {
 - **キーボード操作**: 全機能をキーボードで操作可能
 - **高コントラスト**: 視認性を重視した配色
 - **大きなタップ領域**: 誤操作を防ぐUI設計
+
+## デプロイメント
+
+### GitHub Pagesへのデプロイ
+
+このプロジェクトはGitHub Actionsを使用した自動デプロイに対応しています。
+
+#### 設定手順
+
+1. **GitHubリポジトリの作成**
+   ```bash
+   git remote add origin https://github.com/[username]/[repository-name].git
+   git push -u origin main
+   ```
+
+2. **GitHub Pages有効化**
+   - GitHubリポジトリの Settings > Pages へ移動
+   - Source: "GitHub Actions" を選択
+   - 設定完了後、自動でデプロイが開始されます
+
+3. **デプロイ確認**
+   - Actions タブでデプロイ状況を確認
+   - 完了後、`https://[username].github.io/[repository-name]/` でアクセス可能
+
+#### 自動デプロイトリガー
+- `main` ブランチへのプッシュ
+- 手動実行（Actions タブから）
+
+#### デプロイ内容
+- ビルド前の品質チェック（ESLint、テスト実行）
+- Next.js静的サイト生成
+- GitHub Pagesへのデプロイ
 
 ## ライセンス
 

@@ -1,5 +1,9 @@
 import type { NextConfig } from "next";
 
+// GitHub Pagesでの公開を考慮したベースパス設定
+const isGitHubPages = process.env.GITHUB_PAGES === 'true';
+const repoName = process.env.GITHUB_REPOSITORY?.split('/')[1] || '';
+
 const nextConfig: NextConfig = {
   // 静的サイトとしてエクスポート
   output: 'export',
@@ -9,8 +13,10 @@ const nextConfig: NextConfig = {
   },
   // トレイリングスラッシュを追加
   trailingSlash: true,
-  // ベースパスの設定（必要に応じて）
-  basePath: '',
+  // GitHub Pagesの場合はリポジトリ名をベースパスに設定
+  basePath: isGitHubPages ? `/${repoName}` : '',
+  // アセットプレフィックスも同様に設定
+  assetPrefix: isGitHubPages ? `/${repoName}` : '',
 };
 
 export default nextConfig;
