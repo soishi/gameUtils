@@ -30,6 +30,7 @@ export const useDeathCounter = () => {
   });
 
   const [undoStack, setUndoStack] = useState<number[]>([]);
+  const [isFlashing, setIsFlashing] = useState(false);
 
   // 初期化: LocalStorageからデータを読み込み
   useEffect(() => {
@@ -54,6 +55,14 @@ export const useDeathCounter = () => {
   }, [state.history]);
 
   /**
+   * 点滅エフェクトを実行する
+   */
+  const triggerFlash = useCallback(() => {
+    setIsFlashing(true);
+    setTimeout(() => setIsFlashing(false), 150);
+  }, []);
+
+  /**
    * カウントを増加させる
    */
   const incrementCount = useCallback(() => {
@@ -61,7 +70,8 @@ export const useDeathCounter = () => {
       setUndoStack((stack) => [...stack, prev.count]);
       return { ...prev, count: prev.count + 1 };
     });
-  }, []);
+    triggerFlash();
+  }, [triggerFlash]);
 
   /**
    * カウントを減少させる（下限-1）
@@ -70,11 +80,12 @@ export const useDeathCounter = () => {
     setState((prev) => {
       if (prev.count > -1) {
         setUndoStack((stack) => [...stack, prev.count]);
+        triggerFlash();
         return { ...prev, count: prev.count - 1 };
       }
       return prev;
     });
-  }, []);
+  }, [triggerFlash]);
 
   /**
    * タップイベントを処理する
@@ -100,8 +111,9 @@ export const useDeathCounter = () => {
       const lastCount = undoStack[undoStack.length - 1];
       setUndoStack((stack) => stack.slice(0, -1));
       setState((prev) => ({ ...prev, count: lastCount }));
+      triggerFlash();
     }
-  }, [undoStack]);
+  }, [undoStack, triggerFlash]);
 
   /**
    * 試合を確定する
@@ -160,6 +172,7 @@ export const useDeathCounter = () => {
     history: state.history,
     isHistoryOpen: state.isHistoryOpen,
     canUndo: undoStack.length > 0,
+    isFlashing,
 
     // 操作
     handleTap,

@@ -18,6 +18,7 @@ export const DeathTapCounter = () => {
     history,
     isHistoryOpen,
     canUndo,
+    isFlashing,
     handleTap,
     undoLastAction,
     handleSwipe,
@@ -138,7 +139,11 @@ export const DeathTapCounter = () => {
         {/* 下部エリア（80% - カウント増加ゾーン） */}
         <div className="absolute bottom-0 left-0 w-full h-[80%] flex flex-col items-center justify-center bg-gradient-to-b from-green-800/10 to-green-900/20">
           <div className="text-center flex-shrink-0">
-            <div className="text-8xl sm:text-9xl md:text-[12rem] font-bold tabular-nums leading-none mb-4">
+            <div
+              className={`text-8xl sm:text-9xl md:text-[12rem] font-bold tabular-nums leading-none mb-4 transition-opacity duration-150 ${
+                isFlashing ? "opacity-50" : "opacity-100"
+              }`}
+            >
               {Math.max(0, count)}
             </div>
             <div className="text-xl sm:text-2xl text-green-400 font-medium mb-4">
