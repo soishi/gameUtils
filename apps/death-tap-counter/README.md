@@ -4,7 +4,7 @@ Splatoon用のシンプルなデス数カウンターアプリです。画面を
 
 ## 🚀 デモ
 
-GitHub Pagesで公開中: **https://[username].github.io/[repository-name]/**
+GitHub Pagesで公開中: **https://soishi.github.io/gameUtils/**
 
 > **注意**: GitHubリポジトリの作成後、Settings > Pages でGitHub Actionsをソースに設定してください。
 
@@ -156,7 +156,7 @@ interface GameStats {
 
 1. **GitHubリポジトリの作成**
    ```bash
-   git remote add origin https://github.com/[username]/[repository-name].git
+   git remote add origin https://github.com/soishi/gameUtils.git
    git push -u origin main
    ```
 
@@ -167,7 +167,7 @@ interface GameStats {
 
 3. **デプロイ確認**
    - Actions タブでデプロイ状況を確認
-   - 完了後、`https://[username].github.io/[repository-name]/` でアクセス可能
+   - 完了後、`https://soishi.github.io/gameUtils/` でアクセス可能
 
 #### 自動デプロイトリガー
 - `main` ブランチへのプッシュ
