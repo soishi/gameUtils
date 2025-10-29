@@ -224,6 +224,7 @@ export const DeathTapCounter = () => {
       {isHistoryOpen && (
         <HistoryDrawer
           history={history}
+          stats={stats}
           onClose={toggleHistory}
           onClearHistory={clearHistory}
           onDeleteItem={deleteHistoryItem}

@@ -5,7 +5,7 @@
 'use client'
 
 import { useState } from 'react'
-import { GameHistory } from '@/types'
+import { GameHistory, GameStats } from '@/types'
 import { getRecentHistory } from '@/utils'
 
 interface HistoryDrawerProps {
@@ -82,6 +82,41 @@ export const HistoryDrawer = ({
             >
               <span className="text-white text-lg">×</span>
             </button>
+          </div>
+        </div>
+
+        {/* 統計セクション */}
+        <div className="p-4 bg-gray-800/50">
+          <h3 className="text-lg font-semibold text-white mb-3">統計情報</h3>
+          <div className="space-y-3">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="bg-gray-800/80 rounded-lg p-3 text-center">
+                <div className="text-2xl font-bold text-blue-400 tabular-nums">{stats.avg}</div>
+                <div className="text-sm text-gray-300">平均デス数</div>
+              </div>
+              <div className="bg-gray-800/80 rounded-lg p-3 text-center">
+                <div className="text-2xl font-bold text-purple-400 tabular-nums">{stats.winRate}%</div>
+                <div className="text-sm text-gray-300">勝率</div>
+              </div>
+              <div className="bg-gray-800/80 rounded-lg p-3 text-center">
+                <div className="text-2xl font-bold text-green-400 tabular-nums">{stats.wins}</div>
+                <div className="text-sm text-gray-300">勝利</div>
+              </div>
+              <div className="bg-gray-800/80 rounded-lg p-3 text-center">
+                <div className="text-2xl font-bold text-red-400 tabular-nums">{stats.losses}</div>
+                <div className="text-sm text-gray-300">敗北</div>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="bg-gray-800/80 rounded-lg p-3 text-center">
+                <div className="text-2xl font-bold text-emerald-400 tabular-nums">{stats.recentWinAvgDeaths}</div>
+                <div className="text-sm text-gray-300">直近100試合 勝利時平均</div>
+              </div>
+              <div className="bg-gray-800/80 rounded-lg p-3 text-center">
+                <div className="text-2xl font-bold text-rose-400 tabular-nums">{stats.recentLossAvgDeaths}</div>
+                <div className="text-sm text-gray-300">直近100試合 敗北時平均</div>
+              </div>
+            </div>
           </div>
         </div>
 
