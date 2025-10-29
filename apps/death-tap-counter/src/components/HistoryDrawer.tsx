@@ -6,7 +6,7 @@
 
 import { useState } from 'react'
 import { GameHistory, GameStats } from '@/types'
-import { getRecentHistory, calculateWinRate } from '@/utils'
+import { getRecentHistory } from '@/utils'
 
 interface HistoryDrawerProps {
   history: GameHistory[]
@@ -28,8 +28,12 @@ export const HistoryDrawer = ({
   onUpdateItemResult,
 }: HistoryDrawerProps) => {
   const recentHistory = getRecentHistory(history, 10)
-  const winRate = calculateWinRate(stats)
   const [editingId, setEditingId] = useState<string | null>(null)
+  const handleClearHistory = () => {
+    if (window.confirm('履歴をすべて削除しますか？この操作は元に戻せません。')) {
+      onClearHistory()
+    }
+  }
 
   const formatDate = (timestamp: number) => {
     const date = new Date(timestamp)
@@ -86,22 +90,34 @@ export const HistoryDrawer = ({
         {/* 統計セクション */}
         <div className="p-4 bg-gray-800/50">
           <h3 className="text-lg font-semibold text-white mb-3">統計情報</h3>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="bg-gray-800/80 rounded-lg p-3 text-center">
-              <div className="text-2xl font-bold text-blue-400 tabular-nums">{stats.avg}</div>
-              <div className="text-sm text-gray-300">平均デス数</div>
+          <div className="space-y-3">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="bg-gray-800/80 rounded-lg p-3 text-center">
+                <div className="text-2xl font-bold text-blue-400 tabular-nums">{stats.avg}</div>
+                <div className="text-sm text-gray-300">平均デス数</div>
+              </div>
+              <div className="bg-gray-800/80 rounded-lg p-3 text-center">
+                <div className="text-2xl font-bold text-purple-400 tabular-nums">{stats.winRate}%</div>
+                <div className="text-sm text-gray-300">勝率</div>
+              </div>
+              <div className="bg-gray-800/80 rounded-lg p-3 text-center">
+                <div className="text-2xl font-bold text-green-400 tabular-nums">{stats.wins}</div>
+                <div className="text-sm text-gray-300">勝利</div>
+              </div>
+              <div className="bg-gray-800/80 rounded-lg p-3 text-center">
+                <div className="text-2xl font-bold text-red-400 tabular-nums">{stats.losses}</div>
+                <div className="text-sm text-gray-300">敗北</div>
+              </div>
             </div>
-            <div className="bg-gray-800/80 rounded-lg p-3 text-center">
-              <div className="text-2xl font-bold text-purple-400 tabular-nums">{winRate}%</div>
-              <div className="text-sm text-gray-300">勝率</div>
-            </div>
-            <div className="bg-gray-800/80 rounded-lg p-3 text-center">
-              <div className="text-2xl font-bold text-green-400 tabular-nums">{stats.wins}</div>
-              <div className="text-sm text-gray-300">勝利</div>
-            </div>
-            <div className="bg-gray-800/80 rounded-lg p-3 text-center">
-              <div className="text-2xl font-bold text-red-400 tabular-nums">{stats.losses}</div>
-              <div className="text-sm text-gray-300">敗北</div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="bg-gray-800/80 rounded-lg p-3 text-center">
+                <div className="text-2xl font-bold text-emerald-400 tabular-nums">{stats.recentWinAvgDeaths}</div>
+                <div className="text-sm text-gray-300">直近100試合 勝利時平均</div>
+              </div>
+              <div className="bg-gray-800/80 rounded-lg p-3 text-center">
+                <div className="text-2xl font-bold text-rose-400 tabular-nums">{stats.recentLossAvgDeaths}</div>
+                <div className="text-sm text-gray-300">直近100試合 敗北時平均</div>
+              </div>
             </div>
           </div>
         </div>
@@ -110,7 +126,7 @@ export const HistoryDrawer = ({
         {history.length > 0 && (
           <div className="px-4 pb-2">
             <button
-              onClick={onClearHistory}
+              onClick={handleClearHistory}
               className="w-full py-2 px-4 bg-red-600/80 hover:bg-red-600 text-white rounded-lg transition-colors text-sm font-medium"
             >
               履歴をクリア
