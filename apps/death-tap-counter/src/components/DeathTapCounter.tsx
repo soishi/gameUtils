@@ -36,6 +36,7 @@ export const DeathTapCounter = () => {
 
   const containerRef = useRef<HTMLDivElement>(null)
   const touchStartTime = useRef<number>(0)
+  const stats = getStats()
 
   // タップイベントの処理
   const handleContainerClick = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -192,7 +193,7 @@ export const DeathTapCounter = () => {
 
           {/* 直近5バトルの履歴 */}
           <div className="w-full max-w-xs px-4 flex-shrink-0">
-            <RecentHistory history={history} />
+            <RecentHistory history={history} stats={stats} />
           </div>
 
           <div className="absolute bottom-4 right-4 text-sm text-green-400/80">タップで +1</div>
@@ -223,7 +224,6 @@ export const DeathTapCounter = () => {
       {isHistoryOpen && (
         <HistoryDrawer
           history={history}
-          stats={getStats()}
           onClose={toggleHistory}
           onClearHistory={clearHistory}
           onDeleteItem={deleteHistoryItem}

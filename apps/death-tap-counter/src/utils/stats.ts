@@ -15,6 +15,9 @@ export const calculateStats = (history: GameHistory[]): GameStats => {
       avg: 0,
       wins: 0,
       losses: 0,
+      winRate: 0,
+      recentWinAvgDeaths: 0,
+      recentLossAvgDeaths: 0,
     }
   }
 
@@ -23,10 +26,33 @@ export const calculateStats = (history: GameHistory[]): GameStats => {
   const totalDeaths = history.reduce((sum, game) => sum + game.count, 0)
   const avg = Math.round((totalDeaths / history.length) * 10) / 10 // 小数点1桁で四捨五入
 
+  const winRate = (() => {
+    const totalGames = wins + losses
+    if (totalGames === 0) {
+      return 0
+    }
+    return Math.round((wins / totalGames) * 1000) / 10
+  })()
+
+  const recentHistory = history.slice(-100)
+  const recentWinGames = recentHistory.filter((game) => game.result === 'W')
+  const recentLossGames = recentHistory.filter((game) => game.result === 'L')
+
+  const calculateAverageDeaths = (games: GameHistory[]) => {
+    if (games.length === 0) {
+      return 0
+    }
+    const total = games.reduce((sum, game) => sum + game.count, 0)
+    return Math.round((total / games.length) * 10) / 10
+  }
+
   return {
     avg,
     wins,
     losses,
+    winRate,
+    recentWinAvgDeaths: calculateAverageDeaths(recentWinGames),
+    recentLossAvgDeaths: calculateAverageDeaths(recentLossGames),
   }
 }
 
