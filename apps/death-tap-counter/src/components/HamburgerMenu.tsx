@@ -17,10 +17,10 @@ export const HamburgerMenu = ({ onHistoryClick }: HamburgerMenuProps) => {
       {/* 履歴表示ボタン */}
       <button
         onClick={onHistoryClick}
-        className="w-12 h-12 bg-gray-800/80 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-gray-700/80 transition-colors"
+        className="w-14 h-14 bg-gray-800/80 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-gray-700/80 transition-colors"
         aria-label="履歴・統計を表示"
       >
-        <span className="text-xl">📊</span>
+        <span className="text-2xl">📊</span>
       </button>
     </div>
   )

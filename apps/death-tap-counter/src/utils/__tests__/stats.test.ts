@@ -23,6 +23,9 @@ describe('stats utilities', () => {
       expect(stats.losses).toBe(2)
       // 平均デス数: (3 + 7 + 1 + 5 + 2) / 5 = 18 / 5 = 3.6
       expect(stats.avg).toBe(3.6)
+      expect(stats.winRate).toBe(60)
+      expect(stats.recentWinAvgDeaths).toBe(2)
+      expect(stats.recentLossAvgDeaths).toBe(6)
     })
 
     test('空の履歴では初期値を返す', () => {
@@ -31,6 +34,9 @@ describe('stats utilities', () => {
       expect(stats.wins).toBe(0)
       expect(stats.losses).toBe(0)
       expect(stats.avg).toBe(0)
+      expect(stats.winRate).toBe(0)
+      expect(stats.recentWinAvgDeaths).toBe(0)
+      expect(stats.recentLossAvgDeaths).toBe(0)
     })
 
     test('平均値が小数点1桁で四捨五入される', () => {
@@ -54,6 +60,8 @@ describe('stats utilities', () => {
       expect(stats.wins).toBe(2)
       expect(stats.losses).toBe(0)
       expect(stats.avg).toBe(4.0)
+      expect(stats.recentWinAvgDeaths).toBe(4.0)
+      expect(stats.recentLossAvgDeaths).toBe(0)
     })
 
     test('敗北のみの履歴', () => {
@@ -66,12 +74,47 @@ describe('stats utilities', () => {
       expect(stats.wins).toBe(0)
       expect(stats.losses).toBe(2)
       expect(stats.avg).toBe(4.0)
+      expect(stats.recentWinAvgDeaths).toBe(0)
+      expect(stats.recentLossAvgDeaths).toBe(4.0)
+    })
+
+    test('直近100試合の平均が正しく計算される', () => {
+      const largeHistory: GameHistory[] = Array.from({ length: 120 }, (_, index) => ({
+        id: `${index}`,
+        at: index,
+        count: index % 10,
+        result: index % 2 === 0 ? 'W' : 'L',
+      }))
+
+      const stats = calculateStats(largeHistory)
+
+      const recent = largeHistory.slice(-100)
+      const recentWins = recent.filter((game) => game.result === 'W')
+      const recentLosses = recent.filter((game) => game.result === 'L')
+
+      const calcAvg = (games: GameHistory[]) => {
+        if (games.length === 0) {
+          return 0
+        }
+        const total = games.reduce((sum, game) => sum + game.count, 0)
+        return Math.round((total / games.length) * 10) / 10
+      }
+
+      expect(stats.recentWinAvgDeaths).toBe(calcAvg(recentWins))
+      expect(stats.recentLossAvgDeaths).toBe(calcAvg(recentLosses))
     })
   })
 
   describe('calculateWinRate', () => {
     test('勝率を正しく計算する', () => {
-      const stats = { avg: 3.6, wins: 3, losses: 2 }
+      const stats = {
+        avg: 3.6,
+        wins: 3,
+        losses: 2,
+        winRate: 60,
+        recentWinAvgDeaths: 0,
+        recentLossAvgDeaths: 0,
+      }
       const winRate = calculateWinRate(stats)
 
       // 3/5 = 0.6 = 60.0%
@@ -79,28 +122,56 @@ describe('stats utilities', () => {
     })
 
     test('全勝の場合は100%を返す', () => {
-      const stats = { avg: 2.0, wins: 5, losses: 0 }
+      const stats = {
+        avg: 2.0,
+        wins: 5,
+        losses: 0,
+        winRate: 100,
+        recentWinAvgDeaths: 0,
+        recentLossAvgDeaths: 0,
+      }
       const winRate = calculateWinRate(stats)
 
       expect(winRate).toBe(100.0)
     })
 
     test('全敗の場合は0%を返す', () => {
-      const stats = { avg: 5.0, wins: 0, losses: 3 }
+      const stats = {
+        avg: 5.0,
+        wins: 0,
+        losses: 3,
+        winRate: 0,
+        recentWinAvgDeaths: 0,
+        recentLossAvgDeaths: 0,
+      }
       const winRate = calculateWinRate(stats)
 
       expect(winRate).toBe(0.0)
     })
 
     test('試合数が0の場合は0%を返す', () => {
-      const stats = { avg: 0, wins: 0, losses: 0 }
+      const stats = {
+        avg: 0,
+        wins: 0,
+        losses: 0,
+        winRate: 0,
+        recentWinAvgDeaths: 0,
+        recentLossAvgDeaths: 0,
+      }
       const winRate = calculateWinRate(stats)
 
       expect(winRate).toBe(0)
     })
 
     test('勝率が小数点1桁で四捨五入される', () => {
-      const stats = { avg: 3.0, wins: 1, losses: 2 } // 1/3 = 33.333...%
+      const stats = {
+        avg: 3.0,
+        wins: 1,
+        losses: 2,
+        winRate: 33.3,
+        recentWinAvgDeaths: 0,
+        recentLossAvgDeaths: 0,
+      } // 1/3 = 33.333...%
       const winRate = calculateWinRate(stats)
 
       expect(winRate).toBe(33.3)
