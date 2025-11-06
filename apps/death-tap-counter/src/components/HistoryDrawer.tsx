@@ -10,6 +10,7 @@ import { getRecentHistory } from '@/utils'
 
 interface HistoryDrawerProps {
   history: GameHistory[]
+  stats: GameStats
   onClose: () => void
   onClearHistory: () => void
   onDeleteItem: (gameId: string) => void
@@ -19,13 +20,14 @@ interface HistoryDrawerProps {
 
 export const HistoryDrawer = ({
   history,
+  stats,
   onClose,
   onClearHistory,
   onDeleteItem,
   onUpdateItemCount,
   onUpdateItemResult,
 }: HistoryDrawerProps) => {
-  const recentHistory = getRecentHistory(history, 10)
+  const recentHistory = getRecentHistory(history, 100)
   const [editingId, setEditingId] = useState<string | null>(null)
   const handleClearHistory = () => {
     if (window.confirm('履歴をすべて削除しますか？この操作は元に戻せません。')) {
@@ -95,7 +97,9 @@ export const HistoryDrawer = ({
                 <div className="text-sm text-gray-300">平均デス数</div>
               </div>
               <div className="bg-gray-800/80 rounded-lg p-3 text-center">
-                <div className="text-2xl font-bold text-purple-400 tabular-nums">{stats.winRate}%</div>
+                <div className="text-2xl font-bold text-purple-400 tabular-nums">
+                  {stats.winRate}%
+                </div>
                 <div className="text-sm text-gray-300">勝率</div>
               </div>
               <div className="bg-gray-800/80 rounded-lg p-3 text-center">
@@ -109,28 +113,20 @@ export const HistoryDrawer = ({
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="bg-gray-800/80 rounded-lg p-3 text-center">
-                <div className="text-2xl font-bold text-emerald-400 tabular-nums">{stats.recentWinAvgDeaths}</div>
+                <div className="text-2xl font-bold text-emerald-400 tabular-nums">
+                  {stats.recentWinAvgDeaths}
+                </div>
                 <div className="text-sm text-gray-300">直近100試合 勝利時平均</div>
               </div>
               <div className="bg-gray-800/80 rounded-lg p-3 text-center">
-                <div className="text-2xl font-bold text-rose-400 tabular-nums">{stats.recentLossAvgDeaths}</div>
+                <div className="text-2xl font-bold text-rose-400 tabular-nums">
+                  {stats.recentLossAvgDeaths}
+                </div>
                 <div className="text-sm text-gray-300">直近100試合 敗北時平均</div>
               </div>
             </div>
           </div>
         </div>
-
-        {/* クリアボタン */}
-        {history.length > 0 && (
-          <div className="px-4 pb-2">
-            <button
-              onClick={handleClearHistory}
-              className="w-full py-2 px-4 bg-red-600/80 hover:bg-red-600 text-white rounded-lg transition-colors text-sm font-medium"
-            >
-              履歴をクリア
-            </button>
-          </div>
-        )}
 
         {/* 履歴セクション */}
         <div className="p-4">
@@ -231,6 +227,18 @@ export const HistoryDrawer = ({
             </div>
           )}
         </div>
+
+        {/* クリアボタン */}
+        {history.length > 0 && (
+          <div className="px-4 pb-2">
+            <button
+              onClick={handleClearHistory}
+              className="w-full py-2 px-4 bg-red-600/80 hover:bg-red-600 text-white rounded-lg transition-colors text-sm font-medium"
+            >
+              履歴をクリア
+            </button>
+          </div>
+        )}
 
         {/* フッター */}
         {history.length > 10 && (
