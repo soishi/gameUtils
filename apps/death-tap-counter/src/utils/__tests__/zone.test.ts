@@ -8,20 +8,20 @@ describe('zone utilities', () => {
   describe('getTapZone', () => {
     const screenHeight = 1000
 
-    test('上部20%の領域では decrement を返す', () => {
+    test('上部10%の領域では decrement を返す', () => {
       // 上端
       expect(getTapZone({ x: 100, y: 0 }, screenHeight)).toBe('decrement')
 
-      // 20%境界線付近（上部側）
-      expect(getTapZone({ x: 100, y: 199 }, screenHeight)).toBe('decrement')
+      // 10%境界線付近（上部側）
+      expect(getTapZone({ x: 100, y: 99 }, screenHeight)).toBe('decrement')
 
-      // 20%境界線ちょうど
-      expect(getTapZone({ x: 100, y: 200 }, screenHeight)).toBe('decrement')
+      // 10%境界線ちょうど
+      expect(getTapZone({ x: 100, y: 100 }, screenHeight)).toBe('decrement')
     })
 
-    test('下部80%の領域では increment を返す', () => {
-      // 20%境界線を超えた位置
-      expect(getTapZone({ x: 100, y: 201 }, screenHeight)).toBe('increment')
+    test('下部90%の領域では increment を返す', () => {
+      // 10%境界線を超えた位置
+      expect(getTapZone({ x: 100, y: 101 }, screenHeight)).toBe('increment')
 
       // 下部中央
       expect(getTapZone({ x: 100, y: 600 }, screenHeight)).toBe('increment')
@@ -30,17 +30,17 @@ describe('zone utilities', () => {
       expect(getTapZone({ x: 100, y: 999 }, screenHeight)).toBe('increment')
     })
 
-    test('異なる画面高さでも正しく2:8の比率で判定する', () => {
+    test('異なる画面高さでも正しく1:9の比率で判定する', () => {
       const smallScreen = 500
       const largeScreen = 2000
 
-      // 小さな画面での20%境界
-      expect(getTapZone({ x: 100, y: 100 }, smallScreen)).toBe('decrement')
-      expect(getTapZone({ x: 100, y: 101 }, smallScreen)).toBe('increment')
+      // 小さな画面での10%境界
+      expect(getTapZone({ x: 100, y: 50 }, smallScreen)).toBe('decrement')
+      expect(getTapZone({ x: 100, y: 51 }, smallScreen)).toBe('increment')
 
-      // 大きな画面での20%境界
-      expect(getTapZone({ x: 100, y: 400 }, largeScreen)).toBe('decrement')
-      expect(getTapZone({ x: 100, y: 401 }, largeScreen)).toBe('increment')
+      // 大きな画面での10%境界
+      expect(getTapZone({ x: 100, y: 200 }, largeScreen)).toBe('decrement')
+      expect(getTapZone({ x: 100, y: 201 }, largeScreen)).toBe('increment')
     })
   })
 
