@@ -4,7 +4,7 @@
 
 // アプリケーション設定の型
 export interface AppConfig {
-  readonly ZONE_RATIO: number // 2:8の比率 (0.2)
+  readonly ZONE_RATIO: number // 1:9の比率 (0.1)
   readonly MAX_HISTORY: number // 最大履歴件数 (10000)
   readonly SWIPE_THRESHOLD: {
     readonly DISTANCE: number // 80px
@@ -18,7 +18,7 @@ export interface AppConfig {
 
 // アプリケーション設定値
 export const APP_CONFIG: AppConfig = {
-  ZONE_RATIO: 0.2,
+  ZONE_RATIO: 0.1,
   MAX_HISTORY: 10000,
   SWIPE_THRESHOLD: {
     DISTANCE: 80,

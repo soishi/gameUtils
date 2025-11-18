@@ -169,7 +169,7 @@ export const DeathTapCounter = () => {
         role="button"
         tabIndex={0}
       >
-        {/* 上部エリア（20% - カウント減少ゾーン） */}
+        {/* 上部エリア（10% - カウント減少ゾーン） */}
         <div
           className={`absolute top-0 left-0 w-full h-[10%] flex items-center justify-center bg-gradient-to-b from-red-900/20 to-red-800/10 border-b border-red-600/30 transition-all duration-150 ${
             isFlashing ? 'bg-white/10' : ''
@@ -178,7 +178,7 @@ export const DeathTapCounter = () => {
           <div className="text-xl sm:text-2xl text-red-400 font-medium">タップで -1</div>
         </div>
 
-        {/* 下部エリア（80% - カウント増加ゾーン） */}
+        {/* 下部エリア（90% - カウント増加ゾーン） */}
         <div
           className={`absolute bottom-0 left-0 w-full h-[90%] flex flex-col items-center justify-center bg-gradient-to-b from-green-800/10 to-green-900/20 transition-all duration-150 ${
             isFlashing ? 'bg-white/10' : ''
